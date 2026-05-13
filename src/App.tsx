@@ -1,5 +1,12 @@
-function App() {
-  return <div>Calendar App</div>;
+import { Calendar } from "./components/calendar/calendar";
+
+const App = () => {
+  return (
+    <div>
+      <Calendar/>
+    </div>
+  )
 }
 
-export default App
+export default App;
+
