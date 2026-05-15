@@ -1,0 +1,12 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 60px;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}

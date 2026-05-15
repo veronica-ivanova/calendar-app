@@ -1,10 +1,10 @@
 :root {
     --dark-color: #000000;
     --light-color: #FFFFFF;
-    --primary-color: #AE7AFF;
-    --gray-color: #5F646D;
+    --primary-color: #c8b6ef;
+    --gray-color: #adadbc;
     --dark-hover-color: #161616;
-    --light-transparent-color: rgba(255, 255, 255, 0.75);
+    --light-transparent-color: rgba(248, 248, 250, 0.75);
 }
 
 *,
