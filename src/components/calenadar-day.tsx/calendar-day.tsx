@@ -1,17 +1,25 @@
 import classNames from 'classnames'
 import styles from './calendar-day.module.css'
+import type {Task} from "../../types/types.ts";
 
 type Props = {
-    day?: number,
+    date?: Date
+    tasks?: Task[];
     isCurrentDay?: boolean,
 }
 
-export const CalendarDay = ({ day, isCurrentDay } : Props) => {
- return (
-    <div className={classNames(styles.root, {
-        [styles.active]: isCurrentDay
-    })}>
-        {day ? day : ""}
-    </div>
- )
+export const CalendarDay = ({ date, tasks, isCurrentDay} : Props) => {
+     return (
+        <div className={classNames(styles.root, {
+            [styles.active]: isCurrentDay
+            })}
+        >
+            {date?.getDate()}
+
+            {tasks?.map((task: Task) => (
+                <div key={task.id}>{task.name}</div>
+            ))}
+
+        </div>
+     )
 }

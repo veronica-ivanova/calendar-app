@@ -1,11 +1,11 @@
 import { CalendarDay } from "../calenadar-day.tsx/calendar-day";
 import styles from './calendar.module.css'
+import {tasks} from "../../mock.ts";
+import type {Task} from "../../types/types.ts";
 
 export const Calendar = () => {
     const today = new Date();
     const currentDay = today.getDate();
-    console.log(today);
-    console.log(currentDay);
 
     const month = today.getMonth(); //январь - 0, дек -11
     const year = today.getFullYear();
@@ -33,6 +33,23 @@ export const Calendar = () => {
     ];
     const weekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
+    const taskByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
+        const key = task.date.split("T")[0];
+
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(task);
+        return acc;
+    }, {})
+
+    const getDateKey = (year: number, month: number, day: number) => {
+        const m = month + 1 < 10 ? "0" + (month + 1) : month + 1;
+        const d = day < 10 ? "0" + day : day;
+
+        return `${year}-${m}-${d}`;
+    };
+
     return (
         <div className={"container"}>
             <h2>{monthArray[month]}</h2>
@@ -42,14 +59,23 @@ export const Calendar = () => {
                 ))}
             </div>
             <ul className={styles.root}>
-                {[...emptyDays, ...days].map((_, i) => {
-                    const dayNumber = i - emptyDays.length + 1;
-
+                {emptyDays.map((_, i) => {
                     return (
-                        <li key={`calendar-day-${i}`}>
+                        <li key={`empty-day-${i}`}>
+                            <CalendarDay/>
+                        </li>
+                    );
+                })}
+                {days.map((_, i) => {
+                    const date = new Date(year, month, i + 1);
+                    const dateKey = getDateKey(year, month, i + 1);
+                    // const dateKey = date.toISOString().split("T")[0] 31/05 ->30/04
+                    return (
+                        <li key={`day-${i}`}>
                             <CalendarDay
-                                day={dayNumber > 0 ? dayNumber : undefined}
-                                isCurrentDay={currentDay === dayNumber}
+                                date={date}
+                                isCurrentDay={currentDay === i + 1}
+                                tasks={taskByDate[dateKey || ""]}
                             />
                         </li>
                     );
