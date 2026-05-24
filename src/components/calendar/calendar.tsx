@@ -1,9 +1,23 @@
 import { CalendarDay } from "../calenadar-day.tsx/calendar-day";
 import styles from './calendar.module.css'
-import {tasks} from "../../mock.ts";
 import type {Task} from "../../types/types.ts";
+import { getDateKey} from "../../utils/date.ts";
 
-export const Calendar = () => {
+type Props = {
+    tasks: Task[];
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+};
+
+export const Calendar = ({tasks, setTasks} : Props) => {
+
+    function addTask(task: Task) {
+        setTasks(prev => [...prev, task]);
+    }
+
+    function removeTask(taskId: string){
+        setTasks(prev => prev.filter((task: Task) => task.id !== taskId));
+    }
+
     const today = new Date();
     const currentDay = today.getDate();
 
@@ -43,13 +57,6 @@ export const Calendar = () => {
         return acc;
     }, {})
 
-    const getDateKey = (year: number, month: number, day: number) => {
-        const m = month + 1 < 10 ? "0" + (month + 1) : month + 1;
-        const d = day < 10 ? "0" + day : day;
-
-        return `${year}-${m}-${d}`;
-    };
-
     return (
         <div className={"container"}>
             <h2>{monthArray[month]}</h2>
@@ -61,21 +68,22 @@ export const Calendar = () => {
             <ul className={styles.root}>
                 {emptyDays.map((_, i) => {
                     return (
-                        <li key={`empty-day-${i}`}>
-                            <CalendarDay/>
+                        <li key={`empty-day-${i}`}
+                            className={styles.emptyDay}>
                         </li>
                     );
                 })}
                 {days.map((_, i) => {
                     const date = new Date(year, month, i + 1);
-                    const dateKey = getDateKey(year, month, i + 1);
-                    // const dateKey = date.toISOString().split("T")[0] 31/05 ->30/04
+                    const dateKey = getDateKey(date);
                     return (
                         <li key={`day-${i}`}>
                             <CalendarDay
                                 date={date}
                                 isCurrentDay={currentDay === i + 1}
-                                tasks={taskByDate[dateKey || ""]}
+                                tasks={taskByDate[dateKey] || []}
+                                addTask={addTask}
+                                removeTask={removeTask}
                             />
                         </li>
                     );
