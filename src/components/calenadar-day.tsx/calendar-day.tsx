@@ -3,7 +3,7 @@ import styles from './calendar-day.module.css'
 import type {Task} from "../../types/types.ts";
 import {useState} from "react";
 import { getDateKey} from "../../utils/date.ts";
-import {TaskList} from "../taskList/taskList.tsx";
+import {TaskList} from "../task-list/task-list.tsx";
 
 type Props = {
     date: Date
@@ -11,9 +11,11 @@ type Props = {
     isCurrentDay: boolean,
     addTask: (task: Task) => void,
     removeTask: (taskId: string) => void;
+    onClick: () => void;
+    isSelected: boolean;
 }
 
-export const CalendarDay = ({ date, tasks, isCurrentDay, addTask, removeTask} : Props) => {
+export const CalendarDay = ({ date, tasks, isCurrentDay, addTask, removeTask, onClick, isSelected} : Props) => {
     const [newTask, setNewTask] = useState("");
 
     function handleAddTask() {
@@ -30,8 +32,11 @@ export const CalendarDay = ({ date, tasks, isCurrentDay, addTask, removeTask} : 
     }
 
      return (
-        <div className={classNames(styles.root, {
-            [styles.active]: isCurrentDay
+        <div
+            onClick={onClick}
+            className={classNames(styles.root, {
+            [styles.active]: isCurrentDay,
+            [styles.selected]: isSelected
         })}>
             <div>{date.getDate()}</div>
 

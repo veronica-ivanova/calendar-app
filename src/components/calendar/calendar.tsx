@@ -2,6 +2,8 @@ import { CalendarDay } from "../calenadar-day.tsx/calendar-day";
 import styles from './calendar.module.css'
 import type {Task} from "../../types/types.ts";
 import { getDateKey} from "../../utils/date.ts";
+import { useState } from "react";
+import {DayPanel} from "../day-panel/day-panel.tsx";
 
 type Props = {
     tasks: Task[];
@@ -20,6 +22,8 @@ export const Calendar = ({tasks, setTasks} : Props) => {
 
     const today = new Date();
     const currentDay = today.getDate();
+
+    const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
 
     const month = today.getMonth(); //январь - 0, дек -11
     const year = today.getFullYear();
@@ -57,38 +61,45 @@ export const Calendar = ({tasks, setTasks} : Props) => {
         return acc;
     }, {})
 
+    const selectedTasks = taskByDate[selectedDate] || [];
+
     return (
-        <div className={"container"}>
-            <h2>{monthArray[month]}</h2>
-            <div className={styles.weekDays}>
-                {weekDays.map((weekDay) => (
-                    <h3 key={weekDay}>{weekDay}</h3>
-                ))}
+        <div className={styles.root}>
+            <div className={"container"}>
+                <h2>{monthArray[month]}</h2>
+                <div className={styles.weekDays}>
+                    {weekDays.map((weekDay) => (
+                        <h3 key={weekDay}>{weekDay}</h3>
+                    ))}
+                </div>
+                <ul className={styles.calendarDay}>
+                    {emptyDays.map((_, i) => {
+                        return (
+                            <li key={`empty-day-${i}`}
+                                className={styles.emptyDay}>
+                            </li>
+                        );
+                    })}
+                    {days.map((_, i) => {
+                        const date = new Date(year, month, i + 1);
+                        const dateKey = getDateKey(date);
+                        return (
+                            <li key={`day-${i}`}>
+                                <CalendarDay
+                                    onClick={() => setSelectedDate(dateKey)}
+                                    date={date}
+                                    isCurrentDay={currentDay === i + 1}
+                                    tasks={taskByDate[dateKey] || []}
+                                    addTask={addTask}
+                                    removeTask={removeTask}
+                                    isSelected={selectedDate === dateKey}
+                                />
+                            </li>
+                        );
+                    })}
+                </ul>
             </div>
-            <ul className={styles.root}>
-                {emptyDays.map((_, i) => {
-                    return (
-                        <li key={`empty-day-${i}`}
-                            className={styles.emptyDay}>
-                        </li>
-                    );
-                })}
-                {days.map((_, i) => {
-                    const date = new Date(year, month, i + 1);
-                    const dateKey = getDateKey(date);
-                    return (
-                        <li key={`day-${i}`}>
-                            <CalendarDay
-                                date={date}
-                                isCurrentDay={currentDay === i + 1}
-                                tasks={taskByDate[dateKey] || []}
-                                addTask={addTask}
-                                removeTask={removeTask}
-                            />
-                        </li>
-                    );
-                })}
-            </ul>
+            <DayPanel selectedDate={selectedDate} tasks={selectedTasks} removeTask={removeTask}/>
         </div>
     )
 }

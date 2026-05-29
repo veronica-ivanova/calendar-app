@@ -9,3 +9,6 @@
 .active {
     border: 2px solid red;
 }
+.selected {
+    border: 2px solid blue;
+}

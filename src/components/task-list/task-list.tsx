@@ -1,4 +1,4 @@
-import {TaskItem} from "../taskItem/taskItem.tsx";
+import {TaskItem} from "../task-item/task-item.tsx";
 import type {Task} from "../../types/types.ts";
 
 type Props = {
