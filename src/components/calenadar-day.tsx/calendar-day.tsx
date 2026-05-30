@@ -1,43 +1,35 @@
 import classNames from 'classnames'
 import styles from './calendar-day.module.css'
 import type {Task} from "../../types/types.ts";
-import {useState} from "react";
-import { getDateKey} from "../../utils/date.ts";
 import {TaskList} from "../task-list/task-list.tsx";
 
 type Props = {
     date: Date
     tasks: Task[];
     isCurrentDay: boolean,
-    addTask: (task: Task) => void,
     removeTask: (taskId: string) => void;
     onClick: () => void;
     isSelected: boolean;
+    onAddTask: () => void;
 }
 
-export const CalendarDay = ({ date, tasks, isCurrentDay, addTask, removeTask, onClick, isSelected} : Props) => {
-    const [newTask, setNewTask] = useState("");
+export const CalendarDay = ({
+    date,
+    tasks,
+    isCurrentDay,
+    removeTask,
+    onClick,
+    isSelected,
+    onAddTask
+}: Props) => {
 
-    function handleAddTask() {
-        if (!newTask.trim() || !date) return;
-
-        addTask({
-            id: crypto.randomUUID(),
-            name: newTask,
-            description: newTask,
-            date: getDateKey(date),
-        });
-
-        setNewTask("");
-    }
-
-     return (
+    return (
         <div
             onClick={onClick}
             className={classNames(styles.root, {
-            [styles.active]: isCurrentDay,
-            [styles.selected]: isSelected
-        })}>
+                [styles.active]: isCurrentDay,
+                [styles.selected]: isSelected
+            })}>
             <div>{date.getDate()}</div>
 
             <TaskList
@@ -45,16 +37,9 @@ export const CalendarDay = ({ date, tasks, isCurrentDay, addTask, removeTask, on
                 onDelete={removeTask}
             />
 
-            <input
-                type="text"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                placeholder="Enter a task..."
-            />
-
-            <button onClick={handleAddTask}>
-                Add
+            <button onClick={onAddTask}>
+                +
             </button>
         </div>
-     )
+    )
 }

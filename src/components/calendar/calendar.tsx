@@ -12,18 +12,22 @@ type Props = {
 
 export const Calendar = ({tasks, setTasks} : Props) => {
 
-    function addTask(task: Task) {
+    const addTask = (task: Task) => {
         setTasks(prev => [...prev, task]);
-    }
+    };
 
-    function removeTask(taskId: string){
-        setTasks(prev => prev.filter((task: Task) => task.id !== taskId));
-    }
+    const removeTask = (taskId: string) => {
+        setTasks(prev =>
+            prev.filter(task => task.id !== taskId)
+        );
+    };
 
     const today = new Date();
-    const currentDay = today.getDate();
+    const currentDay = today.getDate(); //число
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
+    const [isCreateTaskOpen, setIsCreateTaskOpen ] = useState(false);
+
 
     const month = today.getMonth(); //январь - 0, дек -11
     const year = today.getFullYear();
@@ -90,16 +94,24 @@ export const Calendar = ({tasks, setTasks} : Props) => {
                                     date={date}
                                     isCurrentDay={currentDay === i + 1}
                                     tasks={taskByDate[dateKey] || []}
-                                    addTask={addTask}
                                     removeTask={removeTask}
                                     isSelected={selectedDate === dateKey}
+                                    onAddTask={() => setIsCreateTaskOpen(true)}
                                 />
                             </li>
                         );
                     })}
                 </ul>
             </div>
-            <DayPanel selectedDate={selectedDate} tasks={selectedTasks} removeTask={removeTask}/>
+            <DayPanel
+                selectedDate={selectedDate}
+                tasks={selectedTasks}
+                removeTask={removeTask}
+                addTask={addTask}
+                isCreateTaskOpen={isCreateTaskOpen}
+                onAddTask={() => setIsCreateTaskOpen(true)}
+                onClose={() => setIsCreateTaskOpen(false)}
+            />
         </div>
     )
 }
