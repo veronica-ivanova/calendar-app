@@ -22,6 +22,27 @@ export const Calendar = ({tasks, setTasks} : Props) => {
         );
     };
 
+    const updateTask = (updatedTask: Task) => {
+        setTasks(prev =>
+            prev.map(task =>
+                task.id === updatedTask.id
+                    ? updatedTask
+                    : task
+            )
+        );
+    }
+    const toggleCompleteTask = (taskId: string) => {
+        setTasks(prev =>
+            prev.map(task =>
+                task.id === taskId
+                    ? {
+                        ...task,
+                        completed: !task.completed,
+                    }
+                    : task
+            )
+        );
+    };
     const today = new Date();
     const currentDay = today.getDate(); //число
 
@@ -94,9 +115,8 @@ export const Calendar = ({tasks, setTasks} : Props) => {
                                     date={date}
                                     isCurrentDay={currentDay === i + 1}
                                     tasks={taskByDate[dateKey] || []}
-                                    removeTask={removeTask}
                                     isSelected={selectedDate === dateKey}
-                                    onAddTask={() => setIsCreateTaskOpen(true)}
+                                    onComplete={toggleCompleteTask}
                                 />
                             </li>
                         );
@@ -111,6 +131,8 @@ export const Calendar = ({tasks, setTasks} : Props) => {
                 isCreateTaskOpen={isCreateTaskOpen}
                 onAddTask={() => setIsCreateTaskOpen(true)}
                 onClose={() => setIsCreateTaskOpen(false)}
+                updateTask={updateTask}
+                onComplete={toggleCompleteTask}
             />
         </div>
     )

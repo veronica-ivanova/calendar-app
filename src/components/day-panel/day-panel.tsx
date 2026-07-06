@@ -10,6 +10,8 @@ type Props = {
     isCreateTaskOpen: boolean;
     onAddTask: () => void;
     onClose: () => void;
+    updateTask: (task: Task) => void;
+    onComplete: (id: string) => void;
 }
 
 export const DayPanel = ({
@@ -19,7 +21,9 @@ export const DayPanel = ({
     removeTask,
     isCreateTaskOpen,
     onAddTask,
-    onClose
+    onClose,
+    updateTask,
+    onComplete,
 } : Props) => {
 
     return (
@@ -40,6 +44,8 @@ export const DayPanel = ({
             <TaskList
                 tasks={tasks}
                 onDelete={removeTask}
+                onEdit={updateTask}
+                onComplete={onComplete}
             />
         </div>
     )

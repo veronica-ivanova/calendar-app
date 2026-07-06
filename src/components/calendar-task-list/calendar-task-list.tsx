@@ -1,24 +1,21 @@
-import {TaskItem} from "../task-item/task-item.tsx";
 import type {Task} from "../../types/types.ts";
+import {CalendarTaskItem} from "../calendar-task-item/calendar-task-item.tsx";
+
 
 type Props = {
     tasks: Task[];
-    onDelete: (id: string) => void;
-    onEdit: (task: Task) => void;
     onComplete: (id: string) => void;
 }
 
-export const TaskList = ({ tasks, onDelete, onEdit, onComplete }: Props) => {
+export const CalendarTaskList = ({ tasks, onComplete }: Props) => {
     if (tasks.length === 0) return null;
 
     return (
         <div>
             {tasks.map(task => (
-                <TaskItem
+                <CalendarTaskItem
                     key={task.id}
                     task={task}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
                     onComplete={onComplete}
                 />
             ))}

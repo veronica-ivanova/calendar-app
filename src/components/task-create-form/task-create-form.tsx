@@ -27,7 +27,8 @@ export const TaskCreateForm = ({
             name: taskName.trim(),
             description: taskDescription.trim(),
             // date: new Date(selectedDate).toISOString(),
-            date: `${selectedDate}T${time}:00`
+            date: `${selectedDate}T${time}:00`,
+            completed: false,
         });
 
         setTaskName("");
