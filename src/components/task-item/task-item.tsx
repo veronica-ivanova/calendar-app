@@ -2,6 +2,8 @@ import type {Task} from "../../types/types.ts";
 import {useState} from "react";
 import {TaskEditForm} from "../task-edit-form/task-edit-form.tsx";
 
+import styles from "./task-item.module.css";
+
 type Props = {
     task: Task;
     onDelete: (id: string) => void;
@@ -10,6 +12,9 @@ type Props = {
 };
 export const TaskItem = ({task, onDelete, onEdit, onComplete} : Props) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+    const taskTime = task.date.split("T")[1]?.slice(0, 5);
+
     if (isEditing) {
         return (
             <TaskEditForm
@@ -19,10 +24,18 @@ export const TaskItem = ({task, onDelete, onEdit, onComplete} : Props) => {
             />
         );
     }
-
     return (
-        <div>
-            <span>{task.name}</span>
+        <div
+            className={task.completed ? styles.completed : ""}
+        >
+            {taskTime && <span>{taskTime}</span>}
+            <button
+                type="button"
+                className={styles.taskName}
+                onClick={() => setIsDescriptionOpen(prev => !prev)}
+            >
+                {task.name}
+            </button>
             <button onClick={()=> onDelete(task.id)}>
                 Remove
             </button>
@@ -34,6 +47,10 @@ export const TaskItem = ({task, onDelete, onEdit, onComplete} : Props) => {
                 checked={task.completed}
                 onChange={() => onComplete(task.id)}
             />
+
+            {isDescriptionOpen && task.description && (
+                <p>{task.description}</p>
+            )}
 
         </div>
     )
