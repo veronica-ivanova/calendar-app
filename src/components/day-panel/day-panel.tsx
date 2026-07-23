@@ -3,6 +3,7 @@ import {TaskList} from "../task-list/task-list.tsx";
 import {TaskCreateForm} from "../task-create-form/task-create-form.tsx";
 import {useState} from "react";
 import styles from './day-panel.module.css'
+import {CalendarDays} from "lucide-react";
 type Props = {
     selectedDate: string;
     tasks: Task[];
@@ -24,26 +25,41 @@ export const DayPanel = ({
 
     return (
         <div className={styles.root}>
-            <h2>{selectedDate}</h2>
+            <div className={styles.header}>
+                <div className={styles.headerInfo}>
+                    <h2>{selectedDate}</h2>
+                    <span className={styles.subtitle}>Сегодня</span>
+                </div>
+                <div className={styles.headerIcon}>
+                    <CalendarDays size={28} />
+                </div>
+            </div>
 
-            {!isCreateTaskOpen &&
-                <button onClick={() => setIsCreateTaskOpen(true)}>
-                    + Add Task
-                </button>}
-
-            {isCreateTaskOpen &&
-                <TaskCreateForm
-                    selectedDate={selectedDate}
-                    addTask={addTask}
-                    onClose={() => setIsCreateTaskOpen(false)}
+            <section className={styles.section}>
+                <div className={styles.sectionHeader}>
+                    <h3>Задачи на день</h3>
+                    {!isCreateTaskOpen &&
+                        <button
+                            className={styles.addButton}
+                            onClick={() => setIsCreateTaskOpen(true)}
+                        >
+                            + Добавить задачу
+                        </button>}
+                </div>
+                {isCreateTaskOpen && (
+                    <TaskCreateForm
+                        selectedDate={selectedDate}
+                        addTask={addTask}
+                        onClose={() => setIsCreateTaskOpen(false)}
+                    />
+                )}
+                <TaskList
+                    tasks={tasks}
+                    onDelete={removeTask}
+                    onEdit={updateTask}
+                    onComplete={onComplete}
                 />
-            }
-            <TaskList
-                tasks={tasks}
-                onDelete={removeTask}
-                onEdit={updateTask}
-                onComplete={onComplete}
-            />
+            </section>
         </div>
     )
 }

@@ -3,6 +3,8 @@ import {useState} from "react";
 import {TaskEditForm} from "../task-edit-form/task-edit-form.tsx";
 
 import styles from "./task-item.module.css";
+import classNames from "classnames";
+import {Pencil, Trash2} from "lucide-react";
 
 type Props = {
     task: Task;
@@ -26,32 +28,49 @@ export const TaskItem = ({task, onDelete, onEdit, onComplete} : Props) => {
     }
     return (
         <div
-            className={task.completed ? styles.completed : ""}
+            className={classNames(styles.task, {
+                [styles.completed]: task.completed,
+            })}
         >
-            {taskTime && <span>{taskTime}</span>}
-            <button
-                type="button"
-                className={styles.taskName}
-                onClick={() => setIsDescriptionOpen(prev => !prev)}
-            >
-                {task.name}
-            </button>
-            <button onClick={()=> onDelete(task.id)}>
-                Remove
-            </button>
-            <button onClick={()=> setIsEditing(true)}>
-                Edit
-            </button>
-            <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => onComplete(task.id)}
-            />
-
+            <div className={styles.taskHeader}>
+                <input
+                    className={styles.checkbox}
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => onComplete(task.id)}
+                />
+                {taskTime && (
+                    <span className={styles.taskTime}>
+                {taskTime}
+            </span>
+                )}
+                <button
+                    type="button"
+                    className={styles.taskName}
+                    onClick={() => setIsDescriptionOpen(prev => !prev)}
+                >
+                    {task.name}
+                </button>
+                <div className={styles.actions}>
+                    <button
+                        className={styles.actionButton}
+                        onClick={() => setIsEditing(true)}
+                    >
+                        <Pencil size={16}/>
+                    </button>
+                    <button
+                        className={styles.actionButton}
+                        onClick={() => onDelete(task.id)}
+                    >
+                        <Trash2 size={16}/>
+                    </button>
+                </div>
+            </div>
             {isDescriptionOpen && task.description && (
-                <p>{task.description}</p>
+                <p className={styles.description}>
+                    {task.description}
+                </p>
             )}
-
         </div>
     )
 };

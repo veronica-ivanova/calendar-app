@@ -5,6 +5,7 @@ import { useState } from "react";
 import {DayPanel} from "../day-panel/day-panel.tsx";
 import {CalendarGrid} from "../calendar-grid/calendar-grid.tsx";
 import {useTasks} from "../../hooks/useTasks.ts";
+import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
 
 export const Calendar = () => {
 
@@ -34,14 +35,16 @@ export const Calendar = () => {
     );
 
     return (
-        <div className={"container"}>
             <div className={styles.root}>
-                <CalendarGrid
-                    tasksByDate={tasksByDate}
-                    selectedDate={selectedDate}
-                    onSelectDate={setSelectedDate}
-                    onComplete={toggleCompleteTask}
-                />
+                <div className={styles.calendarContainer}>
+                    <CalendarHeader/>
+                    <CalendarGrid
+                        tasksByDate={tasksByDate}
+                        selectedDate={selectedDate}
+                        onSelectDate={setSelectedDate}
+                        onComplete={toggleCompleteTask}
+                    />
+                </div>
                 <DayPanel
                     selectedDate={selectedDate}
                     tasks={selectedTasks}
@@ -51,7 +54,5 @@ export const Calendar = () => {
                     onComplete={toggleCompleteTask}
                 />
             </div>
-
-        </div>
     )
 }

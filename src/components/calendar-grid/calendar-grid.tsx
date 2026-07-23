@@ -1,4 +1,4 @@
-import styles from "../calendar/calendar.module.css";
+import styles from "./calendar-grid.module.css";
 import {getDateKey} from "../../utils/date.ts";
 import {CalendarDay} from "../calendar-day/calendar-day.tsx";
 import type {Task} from "../../types/types.ts";
@@ -23,8 +23,7 @@ export const CalendarGrid = ({tasksByDate, selectedDate, onSelectDate, onComplet
     } = useCalendar();
 
     return (
-        <div>
-            <h2>{monthArray[month]}</h2>
+        <div className={styles.root}>
             <div className={styles.weekDays}>
                 {weekDays.map((weekDay) => (
                     <h3 key={weekDay}>{weekDay}</h3>

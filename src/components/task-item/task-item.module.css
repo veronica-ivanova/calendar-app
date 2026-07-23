@@ -1,0 +1,86 @@
+.task {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 16px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--light-color);
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .04);
+
+    transition: .15s ease;
+}
+
+.task:hover {
+    border-color: var(--primary-border);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .08);
+}
+.taskHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.taskTime {
+    min-width: 48px;
+
+    color: var(--primary-color);
+
+    font-size: 14px;
+    font-weight: 600;
+}
+.taskName {
+    flex: 1;
+
+    text-align: left;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    color: var(--text-color);
+}
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    aspect-ratio: 1;
+
+    border-radius: 8px;
+
+    color: var(--secondary-text);
+
+    transition: .15s ease;
+}
+
+.actionButton:hover {
+    background: var(--background-color);
+    color: var(--primary-color);
+}
+.description {
+    padding-left: 60px;
+
+    color: var(--secondary-text);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+.completed {
+    opacity: .65;
+}
+
+.completed .taskName {
+    text-decoration: line-through;
+}
+
+.completed .taskTime {
+    color: var(--secondary-text);
+}

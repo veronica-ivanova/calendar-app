@@ -1,0 +1,64 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    margin-bottom: 14px;
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+}
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.monthSwitcher {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+.monthButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--control-height);
+    height: var(--control-height);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+.monthLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--control-height);
+    padding: 0 24px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-weight: normal;
+    font-size: 20px;
+}
+.todayButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--control-height);
+    padding: 0 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-weight: lighter;
+    font-size: 14px;
+}
+.newTaskButton {
+    padding: 0 24px;
+
+    height: var(--control-height);
+    background-color: var(--primary-color);
+    border-radius: 12px;
+
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--light-color);
+}

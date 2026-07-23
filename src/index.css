@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 :root {
     --dark-color: #000000;
     --light-color: #FFFFFF;
-    --primary-color: #c8b6ef;
-    --gray-color: #adadbc;
-    --dark-hover-color: #161616;
-    --light-transparent-color: rgba(248, 248, 250, 0.75);
+    --background-color: #FBFAFF;
+    --text-color: #1F2937;
+    --secondary-text: #6B7280;
+    --border-color: #E5E7EB;
+    --primary-color: #6C5CE7;
+    --primary-hover: #5E4DE0;
+    --primary-light: #F3F0FF;
+    --primary-border: #D8CCFF;
+    --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --control-height: 44px;
+    --border-radius: 10px;
 }
 
 *,
@@ -17,9 +25,9 @@
 
 body {
     height: 100dvh;
-    font-family: 'Poppins', sans-serif;
-    background-color: #141414;
-    color: white;
+    font-family: 'Inter', sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
 }
 
 a,
@@ -27,14 +35,42 @@ a:link,
 a:visited {
     text-decoration: none;
 }
+a:hover {
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+    font-weight: inherit;
+}
 
 ul,
 ul li {
   list-style: none;
 }
-
+input,
+textarea,
+button,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
 .container {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
+    padding: 0 32px;
 }

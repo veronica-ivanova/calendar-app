@@ -38,21 +38,42 @@ export const tasks = [
         id: "yi55ii5cu4",
         name: "Walk the dog",
         description: "Everyone",
-        date: "2026-06-21T15:00:00",
+        date: "2026-07-21T15:00:00",
         completed: false,
     },
     {
-        id: "yi55ii5cu5",
+        id: "yi55ii5c4",
         name: "Walk the dog",
         description: "Everyone",
         date: "2026-07-21T15:00:00",
         completed: false,
     },
     {
+        id: "yi55ii5c5",
+        name: "Walk the dog",
+        description: "Everyone",
+        date: "2026-07-21T15:00:00",
+        completed: false,
+    },
+    {
+        id: "yi55ii5c6",
+        name: "Walk the dog",
+        description: "Everyone",
+        date: "2026-07-26T15:00:00",
+        completed: false,
+    },
+    {
+        id: "yi55ii5cu5",
+        name: "Walk the dog",
+        description: "Everyone",
+        date: "2026-07-26T15:00:00",
+        completed: false,
+    },
+    {
         id: "yi55ii5cu6",
         name: "Eat",
         description: "Everyone",
-        date: "2026-07-21T16:00:00",
+        date: "2026-07-26T16:00:00",
         completed: false,
     },
     {
@@ -61,6 +82,21 @@ export const tasks = [
         description: "Everyone",
         date: "2026-07-25T16:00:00",
         completed: false,
+    },
+    {
+        id: "yi55ii5u7",
+        name: "Drink",
+        description: "Everyone",
+        date: "2026-07-23T16:00:00",
+        completed: false,
+    },
+    {
+        id: "yi55ii5cu7",
+        name: "Drink",
+        description: "Everyone",
+        date: "2026-07-23T16:00:00",
+        completed: false,
     }
+
 
 ]

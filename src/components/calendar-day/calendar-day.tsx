@@ -25,10 +25,15 @@ export const CalendarDay = ({
         <div
             onClick={onClick}
             className={classNames(styles.root, {
-                [styles.active]: isCurrentDay,
                 [styles.selected]: isSelected
             })}>
-            <div>{date.getDate()}</div>
+            <div
+                className={classNames(styles.dayNumber, {
+                    [styles.active]: isCurrentDay,
+                })}
+            >
+                {date.getDate()}
+            </div>
             <CalendarTaskList
                 tasks={tasks}
                 onComplete={onComplete}

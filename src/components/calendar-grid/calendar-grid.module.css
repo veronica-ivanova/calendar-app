@@ -1,0 +1,38 @@
+.root {
+    display: flex;
+    flex-direction: column;
+   /*flex: 1;*/
+    padding: 0;
+    background: var(--light-color);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+.root h2 {
+    margin: 0;
+    padding: 20px 0 18px;
+
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+}
+.weekDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 8px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--secondary-text);
+    font-weight: 400;
+}
+.emptyDay {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    padding: 8px;
+}
+.calendarDay {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}

@@ -3,10 +3,72 @@
     justify-content: space-between;
     align-items: center;
     min-height: 60px;
-    background-color: var(--dark-color);
-    color: var(--light-color);
-    padding: 20px;
-    text-align: center;
+    padding: 12px 20px;
+    margin: 12px 0;
+    color: var(--text-color);
     font-size: 20px;
     font-weight: 700;
+    border: 1px solid var(--border-color);
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.logoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--control-height);
+    height: var(--control-height);
+
+    background: var(--primary-light);
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+
+    border-radius: 8px;
+}
+.logo h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+.actions {
+    display: flex;
+    justify-self: end;
+    align-items: center;
+    gap: 24px;
+}
+
+.themeToggle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 3px;
+
+    height: var(--control-height);
+    background: var(--primary-light);
+    border-radius: var(--border-radius);
+}
+.themeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1;
+
+    border-radius: 8px;
+}
+.themeButtonActive {
+    background: var(--light-color);
+}
+.userButton {
+    width: var(--control-height);
+    height: var(--control-height);
+    background: var(--primary-light);
+    border-radius: 50%;
 }
