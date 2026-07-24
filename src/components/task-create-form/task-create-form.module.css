@@ -1,6 +1,105 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin: 16px;
+    gap: 16px;
+
+    padding: 16px;
+
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+}
+
+.field {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    background: var(--light-color);
+
+    font-size: 15px;
+    color: var(--text-color);
+
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.textarea {
+    resize: vertical;
+
+    min-height: 90px;
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    background: var(--light-color);
+
+    font-size: 15px;
+    font-family: inherit;
+
+    transition: border-color .15s ease,
+    box-shadow .15s ease;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.secondaryButton {
+    height: 40px;
+
+    padding: 0 18px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    background: var(--light-color);
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: .15s ease;
+}
+
+.secondaryButton:hover {
+    background: var(--background-color);
+}
+
+.primaryButton {
+    height: 40px;
+
+    padding: 0 18px;
+
+    border-radius: 10px;
+
+    background: var(--primary-color);
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: .15s ease;
+}
+
+.primaryButton:hover {
+    background: var(--primary-hover);
 }

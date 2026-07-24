@@ -5,6 +5,7 @@ import {TaskEditForm} from "../task-edit-form/task-edit-form.tsx";
 import styles from "./task-item.module.css";
 import classNames from "classnames";
 import {Pencil, Trash2} from "lucide-react";
+import {TaskCheckBox} from "../task-checkbox/task-checkbox.tsx";
 
 type Props = {
     task: Task;
@@ -33,12 +34,7 @@ export const TaskItem = ({task, onDelete, onEdit, onComplete} : Props) => {
             })}
         >
             <div className={styles.taskHeader}>
-                <input
-                    className={styles.checkbox}
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => onComplete(task.id)}
-                />
+                <TaskCheckBox task={task} onComplete={onComplete} />
                 {taskTime && (
                     <span className={styles.taskTime}>
                 {taskTime}

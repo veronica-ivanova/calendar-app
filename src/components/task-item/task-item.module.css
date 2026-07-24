@@ -41,6 +41,9 @@
 
     color: var(--text-color);
 }
+.taskName:hover {
+    text-decoration: underline;
+}
 .actions {
     display: flex;
     align-items: center;

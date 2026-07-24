@@ -31,26 +31,26 @@ export const TaskEditForm = ({task, onEdit, onClose} : Props) => {
     };
     return (
         <form
-            className={styles.root}
             onSubmit={handleUpdateTask}
+            className={styles.root}
         >
             <input
+                autoFocus
                 type="text"
                 value={taskName}
                 onChange={(e) =>
                     setTaskName(e.target.value)
                 }
-                placeholder="Task title"
+                className={styles.field}
             />
-
             <input
                 type="time"
                 value={time}
                 onChange={(e) =>
                     setTime(e.target.value)
                 }
+                className={styles.field}
             />
-
             <textarea
                 value={taskDescription}
                 onChange={(e) =>
@@ -58,19 +58,25 @@ export const TaskEditForm = ({task, onEdit, onClose} : Props) => {
                         e.target.value
                     )
                 }
-                placeholder="Detailed task description..."
+                placeholder="Опишите детали задачи..."
+                className={styles.textarea}
             />
+            <div className={styles.actions}>
+                <button
+                    type="button"
+                    className={styles.secondaryButton}
+                    onClick={onClose}
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    className={styles.primaryButton}
+                >
+                    Save
+                </button>
+            </div>
 
-            <button type="submit">
-                Save
-            </button>
-
-            <button
-                type="button"
-                onClick={onClose}
-            >
-                Cancel
-            </button>
         </form>
     );
 }

@@ -38,32 +38,45 @@ export const TaskCreateForm = ({
     }
     return (
         <form
+            onSubmit={handleCreateTask}
             className={styles.root}
-            onSubmit={handleCreateTask}>
+        >
             <input
+                autoFocus
                 type="text"
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
-                placeholder="Task title..."
+                placeholder="Название задачи"
+                className={styles.field}
             />
-            <input type="time"
-                   value={time}
-                   onChange={(e) => setTime(e.target.value)}
+            <input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className={styles.field}
             />
             <textarea
                 value={taskDescription}
                 onChange={(e) => setTaskDescription(e.target.value)}
-                placeholder="detailed task description..."
+                placeholder="Опишите детали задачи..."
+                className={styles.textarea}
             />
-            <button type="submit">
-                Add
-            </button>
-            <button
-                type="button"
-                onClick={onClose}
-            >
-                Cancel
-            </button>
+            <div className={styles.actions}>
+                <button
+                    type="button"
+                    className={styles.secondaryButton}
+                    onClick={onClose}
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    className={styles.primaryButton}
+                >
+                    Add
+                </button>
+            </div>
+
         </form>
     )
 }

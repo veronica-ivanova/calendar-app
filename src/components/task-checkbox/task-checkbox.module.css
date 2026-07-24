@@ -1,0 +1,38 @@
+.checkbox {
+    appearance: none;
+    flex-shrink: 0;
+
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--light-color);
+
+    cursor: pointer;
+
+    transition: all .15s ease;
+}
+
+.checkbox:hover {
+    border-color: var(--primary-color);
+}
+
+.checkbox:checked {
+    background: var(--light-color);
+    border-color: #22C55E;
+}
+
+.checkbox:checked::after {
+    content: "✓";
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #22C55E;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
