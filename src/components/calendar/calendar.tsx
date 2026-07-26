@@ -6,6 +6,7 @@ import {DayPanel} from "../day-panel/day-panel.tsx";
 import {CalendarGrid} from "../calendar-grid/calendar-grid.tsx";
 import {useTasks} from "../../hooks/useTasks.ts";
 import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
+import {useCalendar} from "../../hooks/useCalendar.ts";
 
 export const Calendar = () => {
 
@@ -18,6 +19,13 @@ export const Calendar = () => {
     } = useTasks();
 
     const today = new Date();
+
+    const [viewDate, setViewDate] = useState(
+        new Date(today.getFullYear(), today.getMonth(), 1)
+    ); //1июля
+
+    const calendar= useCalendar(viewDate);
+
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
 
     const tasksByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
@@ -34,11 +42,30 @@ export const Calendar = () => {
         (a, b) => a.date.localeCompare(b.date)
     );
 
+    const nextMonth = () => {
+        setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    }
+    const prevMonth = () => {
+        setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+
+    }
+    const onToday = () => {
+        setViewDate(today);
+        setSelectedDate(getDateKey(today))
+    }
     return (
             <div className={styles.root}>
                 <div className={styles.calendarContainer}>
-                    <CalendarHeader/>
+                    <CalendarHeader
+                        monthName={calendar.monthArray[calendar.month]}
+                        year={calendar.year}
+                        onNextMonth={nextMonth}
+                        onPrevMonth={prevMonth}
+                        onToday={onToday}
+                        // onAddTask={() => setIsCreateTaskOpen(true)} }
+                    />
                     <CalendarGrid
+                        calendar={calendar}
                         tasksByDate={tasksByDate}
                         selectedDate={selectedDate}
                         onSelectDate={setSelectedDate}

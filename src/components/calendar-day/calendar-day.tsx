@@ -2,11 +2,11 @@ import classNames from 'classnames'
 import styles from './calendar-day.module.css'
 import type {Task} from "../../types/types.ts";
 import {CalendarTaskList} from "../calendar-task-list/calendar-task-list.tsx";
+import {isSameDate} from "../../utils/date.ts";
 
 type Props = {
     date: Date
     tasks: Task[];
-    isCurrentDay: boolean,
     onClick: () => void;
     isSelected: boolean;
     onComplete: (id: string) => void;
@@ -15,11 +15,13 @@ type Props = {
 export const CalendarDay = ({
     date,
     tasks,
-    isCurrentDay,
     onClick,
     isSelected,
     onComplete
 }: Props) => {
+
+    const today = new Date();
+    const isCurrentDay = isSameDate(date, today)
 
     return (
         <div

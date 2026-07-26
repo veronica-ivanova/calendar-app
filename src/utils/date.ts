@@ -13,3 +13,11 @@ export const getDateKey = (date: Date) => {
 
     return `${year}-${month}-${day}`;
 };
+
+export const isSameDate = (a: Date, b: Date) => {
+    return (
+        a.getDate() === b.getDate() &&
+        a.getMonth() === b.getMonth() &&
+        a.getFullYear() === b.getFullYear()
+    );
+};

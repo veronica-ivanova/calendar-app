@@ -9,19 +9,17 @@ type Props = {
     selectedDate: string;
     onSelectDate: (id: string) => void;
     onComplete: (id: string) => void;
+    calendar: ReturnType<typeof useCalendar>;
 };
 
-export const CalendarGrid = ({tasksByDate, selectedDate, onSelectDate, onComplete}:Props) => {
+export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate, onComplete}:Props) => {
     const {
-        currentDay,
-        month,
-        year,
         days,
         emptyDays,
         weekDays,
-        monthArray,
-    } = useCalendar();
-
+        year,
+        month
+    } = calendar;
     return (
         <div className={styles.root}>
             <div className={styles.weekDays}>
@@ -45,7 +43,6 @@ export const CalendarGrid = ({tasksByDate, selectedDate, onSelectDate, onComplet
                             <CalendarDay
                                 onClick={() => onSelectDate(dateKey)}
                                 date={date}
-                                isCurrentDay={currentDay === i + 1}
                                 tasks={tasksByDate[dateKey] || []}
                                 isSelected={selectedDate === dateKey}
                                 onComplete={onComplete}

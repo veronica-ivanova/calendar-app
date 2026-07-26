@@ -1,10 +1,8 @@
 import {MONTHS, WEEK_DAYS} from "../constants/calendar.ts";
 
-export const useCalendar = () => {
-    const today = new Date();
-    const currentDay = today.getDate(); //число
-    const month = today.getMonth(); //январь - 0, дек -11
-    const year = today.getFullYear();
+export const useCalendar = (viewDate: Date) => {
+    const month = viewDate.getMonth(); //январь - 0, дек -11
+    const year = viewDate.getFullYear();
     const daysInMonth = new Date(year, month + 1, 0).getDate(); // 0 день след. месяца = последнему дню текущего
 
     const days = Array.from({ length: daysInMonth })
@@ -14,13 +12,11 @@ export const useCalendar = () => {
     const weekDays = WEEK_DAYS;
     const monthArray = MONTHS;
     return {
-        today,
         month,
         year,
         weekDays,
         monthArray,
         emptyDays,
-        days,
-        currentDay,
+        days
     };
 }
