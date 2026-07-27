@@ -14,6 +14,31 @@
     --control-height: 44px;
     --border-radius: 10px;
 }
+[data-theme="dark"] {
+    --dark-color: #f9fafb;
+    --light-color: #1f2937;
+    --background-color: #111827;
+    --text-color: #f9fafb;
+    --secondary-text: #9ca3af;
+    --border-color: #374151;
+    --primary-color: #a78bfa;
+    --primary-hover: #8b5cf6;
+    --primary-light: #312e4f;
+    --primary-border: #6d5b9c;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+[data-theme] {
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+[data-theme],
+[data-theme] * {
+    transition:
+            background-color 250ms ease,
+            color 250ms ease,
+            border-color 250ms ease,
+            box-shadow 250ms ease;
+}
 
 *,
 *::before,

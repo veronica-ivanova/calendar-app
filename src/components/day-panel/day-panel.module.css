@@ -27,6 +27,7 @@
 .headerInfo h2 {
     font-size: 22px;
     font-weight: 700;
+    color: var(--text-color);
 }
 .subtitle {
     color: var(--secondary-text);
@@ -59,6 +60,7 @@
 .sectionHeader h3 {
     font-size: 16px;
     font-weight: 400;
+    color: var(--text-color);
 }
 .addButton {
     font-size: 14px;
