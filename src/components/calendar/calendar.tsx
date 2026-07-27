@@ -23,6 +23,7 @@ export const Calendar = () => {
     const [viewDate, setViewDate] = useState(
         new Date(today.getFullYear(), today.getMonth(), 1)
     ); //1июля
+    const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
 
     const calendar= useCalendar(viewDate);
 
@@ -62,7 +63,7 @@ export const Calendar = () => {
                         onNextMonth={nextMonth}
                         onPrevMonth={prevMonth}
                         onToday={onToday}
-                        // onAddTask={() => setIsCreateTaskOpen(true)} }
+                        onAddTask={() => setIsCreateTaskOpen(true)}
                     />
                     <CalendarGrid
                         calendar={calendar}
@@ -79,6 +80,9 @@ export const Calendar = () => {
                     addTask={addTask}
                     updateTask={updateTask}
                     onComplete={toggleCompleteTask}
+                    isCreateTaskOpen={isCreateTaskOpen}
+                    onOpenCreateTask={() => setIsCreateTaskOpen(true)}
+                    onCloseCreateTask={() => setIsCreateTaskOpen(false)}
                 />
             </div>
     )

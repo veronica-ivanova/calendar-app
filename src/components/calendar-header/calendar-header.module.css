@@ -19,6 +19,7 @@
     gap: 6px;
     justify-content: center;
 }
+
 .monthButton {
     display: flex;
     align-items: center;
@@ -28,6 +29,10 @@
 
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
+}
+.monthButton:hover {
+    background-color: var(--primary-light);;
+    border: 1px solid var(--primary-border);
 }
 .monthLabel {
     display: flex;
@@ -51,6 +56,10 @@
     font-weight: lighter;
     font-size: 14px;
 }
+.todayButton:hover {
+    background-color: var(--primary-light);;
+    border: 1px solid var(--primary-border);
+}
 .newTaskButton {
     padding: 0 24px;
 
@@ -61,4 +70,8 @@
     font-weight: bold;
     font-size: 14px;
     color: var(--light-color);
+}
+.newTaskButton:hover {
+    background-color: var(--primary-hover);
+    border: 1px solid var(--primary-border);
 }

@@ -65,8 +65,11 @@
     font-weight: 500;
     color: var(--primary-color);
     transition: color .15s ease;
+    padding: 5px;
 }
 
 .addButton:hover {
     color: var(--primary-hover);
+    border: 1px solid var(--primary-hover);
+    border-radius: 10px;
 }

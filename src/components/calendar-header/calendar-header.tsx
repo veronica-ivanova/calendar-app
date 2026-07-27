@@ -7,11 +7,16 @@ type Props = {
     onNextMonth: () => void;
     onPrevMonth: () => void;
     onToday: () => void;
-    // onAddTask: () => void;
+    onAddTask: () => void;
 };
-export const CalendarHeader = ({monthName, year, onNextMonth, onPrevMonth, onToday}: Props) => {
-
-
+export const CalendarHeader = ({
+    monthName,
+    year,
+    onNextMonth,
+    onPrevMonth,
+    onToday,
+    onAddTask,
+    }: Props) => {
     return (
         <div className={styles.root}>
             <div className={styles.navigation}>
@@ -41,7 +46,7 @@ export const CalendarHeader = ({monthName, year, onNextMonth, onPrevMonth, onTod
             </div>
             <button
                 className={styles.newTaskButton}
-                // onClick={onAddTask}
+                onClick={onAddTask}
             >
                 + Добавить задачу
             </button>
