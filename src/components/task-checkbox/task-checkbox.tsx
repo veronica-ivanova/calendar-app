@@ -1,16 +1,18 @@
 import styles from "./task-checkbox.module.css"
 import type {Task} from "../../types/types.ts";
+import {useDispatch} from "react-redux";
+import {toggleCompleteTask} from "../../redux/entities/tasks/tasksSlice.ts";
 type Props = {
     task: Task;
-    onComplete: (id: string) => void;
 };
-export const TaskCheckBox = ({task, onComplete} : Props) => {
+export const TaskCheckBox = ({ task } : Props) => {
+    const dispatch = useDispatch();
     return (
         <input
             className={styles.checkbox}
             type="checkbox"
             checked={task.completed}
-            onChange={() => onComplete(task.id)}
+            onChange={() => dispatch(toggleCompleteTask(task.id))}
         />
     )
 }

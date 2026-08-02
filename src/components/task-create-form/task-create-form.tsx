@@ -2,17 +2,18 @@ import {useState} from "react";
 import * as React from "react";
 import type {Task} from "../../types/types.ts";
 import styles from "./task-create-form.module.css";
+import {useDispatch} from "react-redux";
+import {addTask} from "../../redux/entities/tasks/tasksSlice.ts";
 
 type Props ={
     selectedDate: string;
-    addTask: (task: Task) => void,
     onClose: () => void;
 }
 export const TaskCreateForm = ({
     selectedDate,
-    addTask,
     onClose
 } : Props) => {
+    const dispatch = useDispatch();
 
     const [taskName, setTaskName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
@@ -20,16 +21,18 @@ export const TaskCreateForm = ({
 
     const handleCreateTask: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
+
         if (!taskName.trim()) return;
 
-        addTask({
+        const newTask: Task = {
             id: crypto.randomUUID(),
             name: taskName.trim(),
             description: taskDescription.trim(),
-            // date: new Date(selectedDate).toISOString(),
             date: `${selectedDate}T${time}:00`,
             completed: false,
-        });
+        }
+
+        dispatch(addTask(newTask))
 
         setTaskName("");
         setTaskDescription("")

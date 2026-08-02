@@ -1,13 +1,15 @@
 import type {Task} from "../../types/types.ts";
 import {useState} from "react";
 import styles from "./task-edit-form.module.css"
+import {useDispatch} from "react-redux";
+import {updateTask} from "../../redux/entities/tasks/tasksSlice.ts";
 
 type Props = {
     task: Task;
-    onEdit: (task: Task) => void,
     onClose: () => void;
 }
-export const TaskEditForm = ({task, onEdit, onClose} : Props) => {
+export const TaskEditForm = ({task, onClose} : Props) => {
+    const dispatch = useDispatch();
     const [taskName, setTaskName] = useState(task.name);
 
     const [taskDescription, setTaskDescription] = useState(task.description);
@@ -19,13 +21,14 @@ export const TaskEditForm = ({task, onEdit, onClose} : Props) => {
         e.preventDefault();
 
         if (!taskName.trim()) return;
-
-        onEdit({
+        const newTask = {
             ...task,
             name: taskName.trim(),
             description: taskDescription.trim(),
             date: `${task.date.split("T")[0]}T${time}:00`,
-        });
+        }
+
+        dispatch(updateTask(newTask));
 
         onClose();
     };

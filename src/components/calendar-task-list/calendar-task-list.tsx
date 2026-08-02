@@ -4,10 +4,9 @@ import {CalendarTaskItem} from "../calendar-task-item/calendar-task-item.tsx";
 
 type Props = {
     tasks: Task[];
-    onComplete: (id: string) => void;
 }
 
-export const CalendarTaskList = ({ tasks, onComplete }: Props) => {
+export const CalendarTaskList = ({ tasks }: Props) => {
     if (tasks.length === 0) return null;
 
     return (
@@ -16,7 +15,6 @@ export const CalendarTaskList = ({ tasks, onComplete }: Props) => {
                 <CalendarTaskItem
                     key={task.id}
                     task={task}
-                    onComplete={onComplete}
                 />
             ))}
         </div>

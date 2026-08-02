@@ -8,11 +8,10 @@ type Props = {
     tasksByDate: Record<string, Task[]>;
     selectedDate: string;
     onSelectDate: (id: string) => void;
-    onComplete: (id: string) => void;
     calendar: ReturnType<typeof useCalendar>;
 };
 
-export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate, onComplete}:Props) => {
+export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate}:Props) => {
     const {
         days,
         emptyDays,
@@ -45,7 +44,6 @@ export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate,
                                 date={date}
                                 tasks={tasksByDate[dateKey] || []}
                                 isSelected={selectedDate === dateKey}
-                                onComplete={onComplete}
                             />
                         </li>
                     );

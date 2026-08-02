@@ -4,19 +4,12 @@ import { getDateKey} from "../../utils/date.ts";
 import { useState } from "react";
 import {DayPanel} from "../day-panel/day-panel.tsx";
 import {CalendarGrid} from "../calendar-grid/calendar-grid.tsx";
-import {useTasks} from "../../hooks/useTasks.ts";
 import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
 import {useCalendar} from "../../hooks/useCalendar.ts";
+import {useSelector} from "react-redux";
+import {selectAllTasks} from "../../redux/entities/tasks/tasksSlice.ts";
 
 export const Calendar = () => {
-
-    const {
-        tasks,
-        addTask,
-        removeTask,
-        updateTask,
-        toggleCompleteTask,
-    } = useTasks();
 
     const today = new Date();
 
@@ -28,7 +21,7 @@ export const Calendar = () => {
     const calendar= useCalendar(viewDate);
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
-
+    const tasks = useSelector(selectAllTasks)
     const tasksByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
         const key = task.date.split("T")[0];
 
@@ -70,16 +63,11 @@ export const Calendar = () => {
                         tasksByDate={tasksByDate}
                         selectedDate={selectedDate}
                         onSelectDate={setSelectedDate}
-                        onComplete={toggleCompleteTask}
                     />
                 </div>
                 <DayPanel
                     selectedDate={selectedDate}
                     tasks={selectedTasks}
-                    removeTask={removeTask}
-                    addTask={addTask}
-                    updateTask={updateTask}
-                    onComplete={toggleCompleteTask}
                     isCreateTaskOpen={isCreateTaskOpen}
                     onOpenCreateTask={() => setIsCreateTaskOpen(true)}
                     onCloseCreateTask={() => setIsCreateTaskOpen(false)}

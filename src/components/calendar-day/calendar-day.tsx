@@ -9,15 +9,13 @@ type Props = {
     tasks: Task[];
     onClick: () => void;
     isSelected: boolean;
-    onComplete: (id: string) => void;
 }
 
 export const CalendarDay = ({
     date,
     tasks,
     onClick,
-    isSelected,
-    onComplete
+    isSelected
 }: Props) => {
 
     const today = new Date();
@@ -38,7 +36,6 @@ export const CalendarDay = ({
             </div>
             <CalendarTaskList
                 tasks={tasks}
-                onComplete={onComplete}
             />
         </div>
     )

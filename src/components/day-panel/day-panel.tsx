@@ -8,10 +8,6 @@ import {formatDateKey, isTodayDateKey} from "../../utils/date.ts";
 type Props = {
     selectedDate: string;
     tasks: Task[];
-    addTask: (task: Task) => void,
-    removeTask: (id: string) => void;
-    updateTask: (task: Task) => void;
-    onComplete: (id: string) => void;
     isCreateTaskOpen: boolean;
     onOpenCreateTask: () => void;
     onCloseCreateTask: () => void;
@@ -20,10 +16,6 @@ type Props = {
 export const DayPanel = ({
                              selectedDate,
                              tasks,
-                             addTask,
-                             removeTask,
-                             updateTask,
-                             onComplete,
                              isCreateTaskOpen,
                              onOpenCreateTask,
                              onCloseCreateTask,
@@ -66,16 +58,12 @@ export const DayPanel = ({
                 {isCreateTaskOpen && (
                     <TaskCreateForm
                         selectedDate={selectedDate}
-                        addTask={addTask}
                         onClose={onCloseCreateTask}
                     />
                 )}
 
                 <TaskList
                     tasks={tasks}
-                    onDelete={removeTask}
-                    onEdit={updateTask}
-                    onComplete={onComplete}
                 />
             </section>
         </div>

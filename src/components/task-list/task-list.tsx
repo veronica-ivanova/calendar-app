@@ -4,12 +4,9 @@ import styles from './task-list.module.css';
 
 type Props = {
     tasks: Task[];
-    onDelete: (id: string) => void;
-    onEdit: (task: Task) => void;
-    onComplete: (id: string) => void;
 }
 
-export const TaskList = ({ tasks, onDelete, onEdit, onComplete }: Props) => {
+export const TaskList = ({ tasks }: Props) => {
     if (tasks.length === 0) return null;
 
     return (
@@ -18,9 +15,6 @@ export const TaskList = ({ tasks, onDelete, onEdit, onComplete }: Props) => {
                 <TaskItem
                     key={task.id}
                     task={task}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                    onComplete={onComplete}
                 />
             ))}
         </div>

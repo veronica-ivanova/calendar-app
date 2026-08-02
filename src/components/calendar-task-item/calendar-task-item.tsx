@@ -4,13 +4,12 @@ import classNames from "classnames";
 import {TaskCheckBox} from "../task-checkbox/task-checkbox.tsx";
 type Props = {
     task: Task;
-    onComplete: (id: string) => void;
 };
 
-export const CalendarTaskItem = ({ task, onComplete }: Props) => {
+export const CalendarTaskItem = ({ task }: Props) => {
     return (
         <div className={styles.root}>
-            <TaskCheckBox task={task} onComplete={onComplete} />
+            <TaskCheckBox task={task}/>
             <span className={classNames(styles.name, {
                 [styles.completed]: task.completed,
             })}
