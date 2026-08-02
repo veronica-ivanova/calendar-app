@@ -1,49 +1,21 @@
-import {tasks} from "../../../mock.ts";
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import {tasks as mockTasks} from "../../../mock.ts";
+import {createEntityAdapter, createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {Task} from "../../../types/types.ts";
 
-type TasksState = {
-    ids: string[];
-    entities: Record<string, Task>;
-}
-const initialState: TasksState = {
-    entities: tasks.reduce<Record<string, Task>>(
-        (acc, task) => {
-            acc[task.id] = task;
-            return acc;
-        },
-        {}),
-    ids: tasks.map(task => task.id),
-}
+const tasksAdapter = createEntityAdapter<Task>()
+
+const initialState = tasksAdapter.setAll(
+    tasksAdapter.getInitialState(),
+    mockTasks,
+)
 
 export const tasksSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-        addTask: (state, action: PayloadAction<Task>) => {
-            const task = action.payload;
-
-            if (state.entities[task.id]) {
-                return;
-            }
-
-            state.ids.push(task.id);
-            state.entities[task.id] = task;
-        },
-        removeTask(state, action: PayloadAction<string>) {
-            const taskId = action.payload;
-
-            delete state.entities[taskId];
-
-            state.ids = state.ids.filter(id => id !== taskId);
-        },
-        updateTask(state, action: PayloadAction<Task>) {
-            const updatedTask = action.payload;
-
-            if (state.entities[updatedTask.id]) {
-                state.entities[updatedTask.id] = updatedTask;
-            }
-        },
+        addTask: tasksAdapter.addOne,
+        removeTask: tasksAdapter.removeOne,
+        updateTask: tasksAdapter.updateOne,
         toggleCompleteTask(state, action: PayloadAction<string>) {
             const task = state.entities[action.payload];
 
@@ -53,11 +25,19 @@ export const tasksSlice = createSlice({
         }
     },
     selectors: {
-        selectTaskById: (state, id: string) => state.entities[id],
-        selectTaskIds: (state) => state.ids,
-        selectAllTasks: state => state.ids.map(id => state.entities[id])
+        ...tasksAdapter.getSelectors()
     }
 })
 
-export const { selectTaskById, selectTaskIds, selectAllTasks } = tasksSlice.selectors;
-export const {addTask, removeTask, updateTask, toggleCompleteTask } = tasksSlice.actions;
+export const {
+    selectById: selectTaskById,
+    selectIds: selectTaskIds,
+    selectAll: selectAllTasks,
+} = tasksSlice.selectors;
+
+export const {
+    addTask,
+    removeTask,
+    updateTask,
+    toggleCompleteTask
+} = tasksSlice.actions;
