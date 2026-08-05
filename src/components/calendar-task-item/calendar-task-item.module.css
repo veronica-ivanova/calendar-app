@@ -1,7 +1,7 @@
 .root {
     display: flex;
     align-items: flex-start;
-    gap: 6px;
+    gap: 3px;
 }
 .name {
     font-size: 12px;
@@ -11,6 +11,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    /*white-space: normal;*/
+    /*overflow-wrap: anywhere;*/
+    /*display: -webkit-box;*/
+    /*-webkit-box-orient: vertical;*/
+    /*-webkit-line-clamp: 2;*/
+    /*overflow: hidden;*/
 }
 .completed {
     color: var(--secondary-text);

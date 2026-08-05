@@ -13,11 +13,8 @@ type Props = {
 
 export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate}:Props) => {
     const {
-        days,
-        emptyDays,
         weekDays,
-        year,
-        month
+        calendarDays
     } = calendar;
     return (
         <div className={styles.root}>
@@ -27,23 +24,17 @@ export const CalendarGrid = ({calendar, tasksByDate, selectedDate, onSelectDate}
                 ))}
             </div>
             <ul className={styles.calendarDay}>
-                {emptyDays.map((_, i) => {
-                    return (
-                        <li key={`empty-day-${i}`}
-                            className={styles.emptyDay}>
-                        </li>
-                    );
-                })}
-                {days.map((_, i) => {
-                    const date = new Date(year, month, i + 1);
+                {calendarDays.map(({date, isCurrentMonth }) => {
                     const dateKey = getDateKey(date);
+
                     return (
-                        <li key={`day-${i}`}>
+                        <li key={dateKey}>
                             <CalendarDay
-                                onClick={() => onSelectDate(dateKey)}
                                 date={date}
                                 tasks={tasksByDate[dateKey] || []}
                                 isSelected={selectedDate === dateKey}
+                                isOutsideMonth={!isCurrentMonth}
+                                onClick={() => onSelectDate(dateKey)}
                             />
                         </li>
                     );

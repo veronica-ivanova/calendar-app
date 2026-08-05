@@ -5,10 +5,35 @@ export const useCalendar = (viewDate: Date) => {
     const year = viewDate.getFullYear();
     const daysInMonth = new Date(year, month + 1, 0).getDate(); // 0 день след. месяца = последнему дню текущего
 
-    const days = Array.from({ length: daysInMonth })
     const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 - вс , 6 - сб
     const normalizedFirstDay = (firstDayOfMonth + 6) % 7; // 0 - пн, 6 -вс
-    const emptyDays = Array.from({ length: normalizedFirstDay })
+
+    // Понедельник первой отображаемой недели.
+    const gridStartDate = new Date(
+        year,
+        month,
+        1 - normalizedFirstDay
+    );
+
+    //Общее количество ячеек для полного заполнения недель (округление последней недели до полной)
+    const calendarDaysCount =
+        Math.ceil((normalizedFirstDay + daysInMonth) / 7) * 7;
+
+    const calendarDays = Array.from(
+        {length: calendarDaysCount},
+        (_, i) => {
+            const date = new Date(gridStartDate);
+            date.setDate(gridStartDate.getDate() + i); //JS автоматически переходит между месяцами
+
+            return {
+                date,
+                isCurrentMonth:
+                date.getMonth() === month &&
+                date.getFullYear() === year,
+            }
+        }
+    )
+
     const weekDays = WEEK_DAYS;
     const monthArray = MONTHS;
     return {
@@ -16,7 +41,6 @@ export const useCalendar = (viewDate: Date) => {
         year,
         weekDays,
         monthArray,
-        emptyDays,
-        days
+        calendarDays
     };
 }

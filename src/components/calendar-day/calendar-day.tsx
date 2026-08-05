@@ -9,13 +9,15 @@ type Props = {
     tasks: Task[];
     onClick: () => void;
     isSelected: boolean;
+    isOutsideMonth: boolean;
 }
 
 export const CalendarDay = ({
     date,
     tasks,
     onClick,
-    isSelected
+    isSelected,
+    isOutsideMonth
 }: Props) => {
 
     const today = new Date();
@@ -25,6 +27,7 @@ export const CalendarDay = ({
         <div
             onClick={onClick}
             className={classNames(styles.root, {
+                [styles.outsideMonth] : isOutsideMonth,
                 [styles.selected]: isSelected
             })}>
             <div

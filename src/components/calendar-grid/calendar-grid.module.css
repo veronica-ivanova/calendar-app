@@ -26,13 +26,8 @@
     color: var(--secondary-text);
     font-weight: 400;
 }
-.emptyDay {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--border-color);
-    padding: 8px;
-}
 .calendarDay {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(132px, 1fr));
+    grid-auto-rows: 120px;
 }
