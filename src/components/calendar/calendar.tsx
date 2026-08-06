@@ -1,5 +1,5 @@
 import styles from './calendar.module.css'
-import type {Task} from "../../types/types.ts";
+import type {Task, TaskVisibilityFilter} from "../../types/types.ts";
 import { getDateKey} from "../../utils/date.ts";
 import { useState } from "react";
 import {DayPanel} from "../day-panel/day-panel.tsx";
@@ -8,6 +8,7 @@ import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
 import {useCalendar} from "../../hooks/useCalendar.ts";
 import {useSelector} from "react-redux";
 import {selectAllTasks} from "../../redux/entities/tasks/tasksSlice.ts";
+import {FilterPanel} from "../filter-panel/filter-panel.tsx";
 
 export const Calendar = () => {
 
@@ -18,11 +19,20 @@ export const Calendar = () => {
     ); //1июля
     const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
 
+    const [query, setQuery] = useState("");
+
     const calendar= useCalendar(viewDate);
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
+    const [visibility, setVisibility] = useState<TaskVisibilityFilter>("all");
+
     const tasks = useSelector(selectAllTasks)
-    const tasksByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
+
+    const visibleTasks = visibility === "public"
+        ? tasks.filter((task) => task.visibility === "public")
+        : tasks;
+
+    const tasksByDate = visibleTasks.reduce<Record<string, Task[]>>((acc, task) => {
         const key = task.date.split("T")[0];
 
         if (!acc[key]) {
@@ -47,6 +57,21 @@ export const Calendar = () => {
         setViewDate(today);
         setSelectedDate(getDateKey(today))
     }
+    const tasksInCurrentMonth = tasks.filter((task) => {
+        const taskDate = new Date(task.date);
+
+        return (
+            taskDate.getFullYear() === viewDate.getFullYear() &&
+            taskDate.getMonth() === viewDate.getMonth()
+        );
+    });
+
+    const allCount = tasksInCurrentMonth.length;
+
+    const publicCount = tasksInCurrentMonth.filter(
+        (task) => task.visibility === "public",
+    ).length;
+
     return (
             <div className={styles.root}>
                 <div className={styles.calendarContainer}>
@@ -57,6 +82,14 @@ export const Calendar = () => {
                         onPrevMonth={prevMonth}
                         onToday={onToday}
                         onAddTask={() => setIsCreateTaskOpen(true)}
+                    />
+                    <FilterPanel
+                        query={query}
+                        visibility={visibility}
+                        allCount={allCount}
+                        publicCount={publicCount}
+                        onQueryChange={setQuery}
+                        onVisibilityChange={setVisibility}
                     />
                     <CalendarGrid
                         calendar={calendar}

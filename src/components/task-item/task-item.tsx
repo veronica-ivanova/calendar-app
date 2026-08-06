@@ -3,7 +3,7 @@ import {useState} from "react";
 import {TaskEditForm} from "../task-edit-form/task-edit-form.tsx";
 import styles from "./task-item.module.css";
 import classNames from "classnames";
-import {Pencil, Trash2} from "lucide-react";
+import {Pencil, Trash2, UsersRound} from "lucide-react";
 import {TaskCheckBox} from "../task-checkbox/task-checkbox.tsx";
 import {useDispatch} from "react-redux";
 import {removeTask} from "../../redux/entities/tasks/tasksSlice.ts";
@@ -46,6 +46,14 @@ export const TaskItem = ({ task } : Props) => {
                 >
                     {task.name}
                 </button>
+                {task.visibility === "public" && (
+                    <span title="Публичная задача">
+                        <UsersRound
+                            size={16}
+                            aria-label="Публичная задача"
+                        />
+                    </span>
+                )}
                 <div className={styles.actions}>
                     <button
                         className={styles.actionButton}

@@ -31,7 +31,7 @@
     border-radius: var(--border-radius);
 }
 .monthButton:hover {
-    background-color: var(--primary-light);;
+    background-color: var(--primary-light);
     border: 1px solid var(--primary-border);
 }
 .monthLabel {
@@ -40,6 +40,7 @@
     justify-content: center;
     height: var(--control-height);
     padding: 0 24px;
+    min-width: 200px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     font-weight: normal;

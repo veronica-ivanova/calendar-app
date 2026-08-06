@@ -1,0 +1,18 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+
+}
+.filterButtonContainer {
+    display: flex;
+    gap: 16px;
+}

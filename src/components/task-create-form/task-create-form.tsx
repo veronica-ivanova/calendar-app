@@ -30,6 +30,7 @@ export const TaskCreateForm = ({
             description: taskDescription.trim(),
             date: `${selectedDate}T${time}:00`,
             completed: false,
+            visibility: "private"
         }
 
         dispatch(addTask(newTask))
