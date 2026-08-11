@@ -5,8 +5,7 @@ import styles from "./task-item.module.css";
 import classNames from "classnames";
 import {Pencil, Trash2, UsersRound} from "lucide-react";
 import {TaskCheckBox} from "../task-checkbox/task-checkbox.tsx";
-import {useDispatch} from "react-redux";
-import {removeTask} from "../../redux/entities/tasks/tasksSlice.ts";
+import {useDeleteTaskMutation} from "../../redux/services/api.ts";
 
 type Props = {
     task: Task;
@@ -16,7 +15,24 @@ export const TaskItem = ({ task } : Props) => {
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
     const taskTime = task.date.split("T")[1]?.slice(0, 5);
 
-    const dispatch = useDispatch();
+    const [
+        deleteTask,
+        {
+            isLoading: isDeleting,
+            isError: isDeleteError,
+        },
+    ] = useDeleteTaskMutation();
+
+    const handleDelete = async () => {
+        try {
+            await deleteTask(task.id).unwrap();
+        }  catch (error) {
+                console.error(
+                    `Не удалось удалить задачу ${task.id}:`,
+                    error,
+                );
+        }
+    }
 
     if (isEditing) {
         return (
@@ -46,7 +62,7 @@ export const TaskItem = ({ task } : Props) => {
                 >
                     {task.name}
                 </button>
-                {task.visibility === "public" && (
+                {task.visibility === "PUBLIC" && (
                     <span title="Публичная задача">
                         <UsersRound
                             size={16}
@@ -62,8 +78,10 @@ export const TaskItem = ({ task } : Props) => {
                         <Pencil size={16}/>
                     </button>
                     <button
+                        type="button"
                         className={styles.actionButton}
-                        onClick={() => dispatch(removeTask(task.id))}
+                        disabled={isDeleting}
+                        onClick={handleDelete}
                     >
                         <Trash2 size={16}/>
                     </button>
@@ -72,6 +90,11 @@ export const TaskItem = ({ task } : Props) => {
             {isDescriptionOpen && task.description && (
                 <p className={styles.description}>
                     {task.description}
+                </p>
+            )}
+            {isDeleteError && (
+                <p>
+                    Не удалось удалить задачу
                 </p>
             )}
         </div>

@@ -1,14 +1,13 @@
 import styles from './calendar.module.css'
-import type {Task, TaskVisibilityFilter} from "../../types/types.ts";
+import type {Task, TaskVisibility } from "../../types/types.ts";
 import { getDateKey} from "../../utils/date.ts";
 import { useState } from "react";
 import {DayPanel} from "../day-panel/day-panel.tsx";
 import {CalendarGrid} from "../calendar-grid/calendar-grid.tsx";
 import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
 import {useCalendar} from "../../hooks/useCalendar.ts";
-import {useSelector} from "react-redux";
-import {selectAllTasks} from "../../redux/entities/tasks/tasksSlice.ts";
 import {FilterPanel} from "../filter-panel/filter-panel.tsx";
+import {useGetTasksQuery} from "../../redux/services/api.ts";
 
 export const Calendar = () => {
 
@@ -24,12 +23,26 @@ export const Calendar = () => {
     const calendar= useCalendar(viewDate);
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
-    const [visibility, setVisibility] = useState<TaskVisibilityFilter>("all");
+    const [visibility, setVisibility] = useState<TaskVisibility>("PRIVATE");
 
-    const tasks = useSelector(selectAllTasks)
+    const {
+        data: tasks = [],
+        isLoading,
+        isError,
+        error,
+    } = useGetTasksQuery();
 
-    const visibleTasks = visibility === "public"
-        ? tasks.filter((task) => task.visibility === "public")
+    if (isLoading) {
+        return <div>Загрузка задач...</div>;
+    }
+
+    if (isError) {
+        console.error(error);
+        return <div>Не удалось получить задачи</div>;
+    }
+
+    const visibleTasks = visibility === "PUBLIC"
+        ? tasks.filter((task) => task.visibility === "PUBLIC")
         : tasks;
 
     const tasksByDate = visibleTasks.reduce<Record<string, Task[]>>((acc, task) => {
@@ -69,7 +82,7 @@ export const Calendar = () => {
     const allCount = tasksInCurrentMonth.length;
 
     const publicCount = tasksInCurrentMonth.filter(
-        (task) => task.visibility === "public",
+        (task) => task.visibility === "PUBLIC",
     ).length;
 
     return (

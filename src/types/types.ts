@@ -1,10 +1,17 @@
-export type TaskVisibility = "private" | "public"
-export type TaskVisibilityFilter = "all" | "public";
+export type TaskVisibility = "PRIVATE" | "PUBLIC";
+
 export type Task = {
     id: string;
     name: string;
     description: string;
     date: string;
+    createdAt: string;
+    updatedAt: string;
+    visibility: TaskVisibility;
     completed: boolean;
-    visibility: TaskVisibility
-}
+};
+
+export type TaskRequest = Pick<
+    Task,
+    "name" | "description" | "visibility" | "date"
+>

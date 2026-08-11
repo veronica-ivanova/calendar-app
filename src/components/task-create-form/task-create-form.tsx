@@ -1,9 +1,8 @@
 import {useState} from "react";
 import * as React from "react";
-import type {Task} from "../../types/types.ts";
+import type {TaskRequest} from "../../types/types.ts";
 import styles from "./task-create-form.module.css";
-import {useDispatch} from "react-redux";
-import {addTask} from "../../redux/entities/tasks/tasksSlice.ts";
+import {useCreateTaskMutation} from "../../redux/services/api.ts";
 
 type Props ={
     selectedDate: string;
@@ -13,32 +12,40 @@ export const TaskCreateForm = ({
     selectedDate,
     onClose
 } : Props) => {
-    const dispatch = useDispatch();
-
     const [taskName, setTaskName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
     const [time, setTime] = useState("12:00");
+    const [
+        createTask,
+        {
+            isLoading: isCreating,
+            isError: isCreateError
+        }
+    ] = useCreateTaskMutation();
 
-    const handleCreateTask: React.FormEventHandler<HTMLFormElement> = (e) => {
+    const handleCreateTask: React.FormEventHandler<HTMLFormElement> = async (
+        e
+    ) => {
         e.preventDefault();
 
         if (!taskName.trim()) return;
 
-        const newTask: Task = {
-            id: crypto.randomUUID(),
+        const newTask: TaskRequest = {
             name: taskName.trim(),
             description: taskDescription.trim(),
-            date: `${selectedDate}T${time}:00`,
-            completed: false,
-            visibility: "private"
+            date: `${selectedDate}T${time}:00Z`,
+            visibility: "PRIVATE"
         }
-
-        dispatch(addTask(newTask))
-
-        setTaskName("");
-        setTaskDescription("")
-        setTime("12:00");
-        onClose();
+        try {
+            const createdTask = await createTask(newTask).unwrap();
+            console.log("Created task", createdTask);
+            setTaskName("");
+            setTaskDescription("")
+            setTime("12:00");
+            onClose();
+        } catch (error) {
+            console.log("error", error)
+        }
     }
     return (
         <form
@@ -65,17 +72,24 @@ export const TaskCreateForm = ({
                 placeholder="Опишите детали задачи..."
                 className={styles.textarea}
             />
+            {isCreateError && (
+                <p>
+                    Не удалось создать задачу
+                </p>
+            )}
             <div className={styles.actions}>
                 <button
                     type="button"
                     className={styles.secondaryButton}
                     onClick={onClose}
+                    disabled={isCreating}
                 >
                     Cancel
                 </button>
                 <button
                     type="submit"
                     className={styles.primaryButton}
+                    disabled={isCreating || !taskName.trim()}
                 >
                     Add
                 </button>
