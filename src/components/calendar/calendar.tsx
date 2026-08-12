@@ -46,7 +46,7 @@ export const Calendar = () => {
         : tasks;
 
     const tasksByDate = visibleTasks.reduce<Record<string, Task[]>>((acc, task) => {
-        const key = task.date.split("T")[0];
+        const key = getDateKey(new Date(task.date));
 
         if (!acc[key]) {
             acc[key] = [];
@@ -55,9 +55,11 @@ export const Calendar = () => {
         return acc;
     }, {})
 
-    const selectedTasks = [...(tasksByDate[selectedDate] || [])].sort(
-        (a, b) => a.date.localeCompare(b.date)
-    );
+    Object.values(tasksByDate).forEach((tasks) => {
+        tasks.sort((a, b) => a.date.localeCompare(b.date));
+    })
+
+    const selectedTasks = tasksByDate[selectedDate] ?? [];
 
     const nextMonth = () => {
         setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));

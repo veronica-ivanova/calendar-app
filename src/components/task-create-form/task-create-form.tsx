@@ -3,6 +3,7 @@ import * as React from "react";
 import type {TaskRequest} from "../../types/types.ts";
 import styles from "./task-create-form.module.css";
 import {useCreateTaskMutation} from "../../redux/services/api.ts";
+import {createISOString} from "../../utils/date.ts";
 
 type Props ={
     selectedDate: string;
@@ -33,12 +34,11 @@ export const TaskCreateForm = ({
         const newTask: TaskRequest = {
             name: taskName.trim(),
             description: taskDescription.trim(),
-            date: `${selectedDate}T${time}:00Z`,
+            date: createISOString(selectedDate, time),
             visibility: "PRIVATE"
         }
         try {
-            const createdTask = await createTask(newTask).unwrap();
-            console.log("Created task", createdTask);
+            await createTask(newTask).unwrap();
             setTaskName("");
             setTaskDescription("")
             setTime("12:00");

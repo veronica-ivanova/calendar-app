@@ -13,7 +13,10 @@ type Props = {
 export const TaskItem = ({ task } : Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
-    const taskTime = task.date.split("T")[1]?.slice(0, 5);
+    const taskTime = new Date(task.date).toLocaleTimeString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 
     const [
         deleteTask,

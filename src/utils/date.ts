@@ -33,3 +33,28 @@ export const formatDateKey = (dateKey: string) => {
 export const isTodayDateKey = (dateKey: string) => {
     return dateKey === getDateKey(new Date());
 };
+
+export const createISOString = (dateKey: string, time: string) => {
+    const [year, month, day] = dateKey.split("-").map((value) => Number(value));
+    const [hours, minutes] = time.split(":").map(Number);
+
+    return new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+    ).toISOString();
+};
+
+export const getTime = (dateString: string) => {
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+        return "12:00";
+    }
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+};

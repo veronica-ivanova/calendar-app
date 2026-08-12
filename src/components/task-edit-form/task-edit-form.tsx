@@ -3,6 +3,7 @@ import {useState} from "react";
 import styles from "./task-edit-form.module.css"
 import {useUpdateTaskMutation} from "../../redux/services/api.ts";
 import * as React from "react";
+import {createISOString, getDateKey, getTime} from "../../utils/date.ts";
 
 type Props = {
     task: Task;
@@ -11,9 +12,8 @@ type Props = {
 export const TaskEditForm = ({task, onClose} : Props) => {
     const [taskName, setTaskName] = useState(task.name);
     const [taskDescription, setTaskDescription] = useState(task.description);
-    const taskTime =
-        task.date.split("T")[1]?.slice(0, 5) ?? "12:00";
-    const [time, setTime] = useState(taskTime);
+    const [time, setTime] = useState(() => getTime(task.date));
+    const dataKey = getDateKey(new Date(task.date));
 
     const [
         updateTask,
@@ -33,7 +33,7 @@ export const TaskEditForm = ({task, onClose} : Props) => {
         const newTask: TaskRequest = {
             name: taskName.trim(),
             description: taskDescription.trim(),
-            date: `${task.date.split("T")[0]}T${time}:00Z`,
+            date: createISOString(dataKey, time),
             visibility: task.visibility,
         }
         try {
