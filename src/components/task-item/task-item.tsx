@@ -45,6 +45,7 @@ export const TaskItem = ({ task } : Props) => {
             />
         );
     }
+
     return (
         <div
             className={classNames(styles.task, {
@@ -52,11 +53,14 @@ export const TaskItem = ({ task } : Props) => {
             })}
         >
             <div className={styles.taskHeader}>
-                <TaskCheckBox task={task}/>
+                <TaskCheckBox
+                    task={task}
+                    showErrorMessage
+                />
                 {taskTime && (
                     <span className={styles.taskTime}>
-                {taskTime}
-            </span>
+                        {taskTime}
+                    </span>
                 )}
                 <button
                     type="button"

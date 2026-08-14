@@ -5,6 +5,10 @@ type UpdateTaskArgs = {
     id: Task["id"];
     changes: TaskRequest
 }
+type SetTaskCompletedArgs = {
+    id: Task["id"];
+    completed: boolean
+}
 
 export const api = createApi({
     reducerPath: "api",
@@ -35,9 +39,17 @@ export const api = createApi({
         }),
         updateTask: builder.mutation<Task, UpdateTaskArgs>({
             query: ({id, changes}) => ({
-                url: `tasks/${id}`,
+                url: `tasks/${id}о`,
                 method: "PUT",
                 body: changes
+            }),
+            invalidatesTags: ["Tasks"]
+        }),
+        setTaskCompleted: builder.mutation<Task, SetTaskCompletedArgs>({
+            query: ({id, completed}) => ({
+                url: `/tasks/${id}/completed`,
+                method: "PATCH",
+                body: { completed }
             }),
             invalidatesTags: ["Tasks"]
         })
@@ -50,4 +62,5 @@ export const {
     useCreateTaskMutation,
     useDeleteTaskMutation,
     useUpdateTaskMutation,
+    useSetTaskCompletedMutation,
 } = api;
