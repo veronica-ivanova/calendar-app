@@ -4,6 +4,8 @@ import type {TaskRequest} from "../../types/types.ts";
 import styles from "./task-create-form.module.css";
 import {useCreateTaskMutation} from "../../redux/services/api.ts";
 import {createISOString} from "../../utils/date.ts";
+import classNames from "classnames";
+import {ErrorMessage} from "../error-message/error-message.tsx";
 
 type Props ={
     selectedDate: string;
@@ -16,6 +18,10 @@ export const TaskCreateForm = ({
     const [taskName, setTaskName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
     const [time, setTime] = useState("12:00");
+
+    const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+    const showTaskNameError = isSubmitAttempted && !taskName.trim()
+
     const [
         createTask,
         {
@@ -28,6 +34,7 @@ export const TaskCreateForm = ({
         e
     ) => {
         e.preventDefault();
+        setIsSubmitAttempted(true)
 
         if (!taskName.trim()) return;
 
@@ -58,8 +65,15 @@ export const TaskCreateForm = ({
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
                 placeholder="Название задачи"
-                className={styles.field}
+                className={classNames(styles.field, {
+                    [styles.inputError] : showTaskNameError
+                })}
             />
+            {showTaskNameError && (
+                <ErrorMessage>
+                    Введите название задачи
+                </ErrorMessage>
+            )}
             <input
                 type="time"
                 value={time}
@@ -72,11 +86,6 @@ export const TaskCreateForm = ({
                 placeholder="Опишите детали задачи..."
                 className={styles.textarea}
             />
-            {isCreateError && (
-                <p>
-                    Не удалось создать задачу
-                </p>
-            )}
             <div className={styles.actions}>
                 <button
                     type="button"
@@ -84,17 +93,21 @@ export const TaskCreateForm = ({
                     onClick={onClose}
                     disabled={isCreating}
                 >
-                    Cancel
+                    Отмена
                 </button>
                 <button
                     type="submit"
                     className={styles.primaryButton}
-                    disabled={isCreating || !taskName.trim()}
+                    disabled={isCreating}
                 >
-                    Add
+                    {isCreating ? "Создание..." : "Создать задачу"}
                 </button>
             </div>
-
+            {isCreateError && (
+                <ErrorMessage>
+                    Не удалось создать задачу. Попробуйте позже.
+                </ErrorMessage>
+            )}
         </form>
     )
 }

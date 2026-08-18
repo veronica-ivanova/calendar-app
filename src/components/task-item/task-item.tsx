@@ -6,6 +6,7 @@ import classNames from "classnames";
 import {Pencil, Trash2, UsersRound} from "lucide-react";
 import {TaskCheckBox} from "../task-checkbox/task-checkbox.tsx";
 import {useDeleteTaskMutation} from "../../redux/services/api.ts";
+import {ErrorMessage} from "../error-message/error-message.tsx";
 
 type Props = {
     task: Task;
@@ -100,9 +101,9 @@ export const TaskItem = ({ task } : Props) => {
                 </p>
             )}
             {isDeleteError && (
-                <p>
-                    Не удалось удалить задачу
-                </p>
+                <ErrorMessage>
+                    Не удалось удалить задачу. Попробуйте позже.
+                </ErrorMessage>
             )}
         </div>
     )

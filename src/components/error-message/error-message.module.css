@@ -1,0 +1,27 @@
+.root {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    color: #dc2626;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.message {
+    flex: 1;
+    min-width: 0;
+}
+.closeButton {
+    flex: 0 0 auto;
+
+    padding: 0;
+    border: none;
+
+    color: inherit;
+    font-size: 16px;
+    line-height: 1;
+
+    background: transparent;
+    cursor: pointer;
+}

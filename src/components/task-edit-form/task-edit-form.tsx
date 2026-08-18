@@ -4,6 +4,8 @@ import styles from "./task-edit-form.module.css"
 import {useUpdateTaskMutation} from "../../redux/services/api.ts";
 import * as React from "react";
 import {createISOString, getDateKey, getTime} from "../../utils/date.ts";
+import classNames from "classnames";
+import {ErrorMessage} from "../error-message/error-message.tsx";
 
 type Props = {
     task: Task;
@@ -13,6 +15,10 @@ export const TaskEditForm = ({task, onClose} : Props) => {
     const [taskName, setTaskName] = useState(task.name);
     const [taskDescription, setTaskDescription] = useState(task.description);
     const [time, setTime] = useState(() => getTime(task.date));
+
+    const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+    const showTaskNameError = isSubmitAttempted && !taskName.trim()
+
     const dataKey = getDateKey(new Date(task.date));
 
     const [
@@ -27,6 +33,7 @@ export const TaskEditForm = ({task, onClose} : Props) => {
         e
     ) => {
         e.preventDefault();
+        setIsSubmitAttempted(true);
 
         if (!taskName.trim()) return;
 
@@ -59,8 +66,15 @@ export const TaskEditForm = ({task, onClose} : Props) => {
                 onChange={(e) =>
                     setTaskName(e.target.value)
                 }
-                className={styles.field}
+                className={classNames(styles.field, {
+                    [styles.inputError] : showTaskNameError
+                })}
             />
+            {showTaskNameError && (
+                <ErrorMessage>
+                    Введите название задачи
+                </ErrorMessage>
+            )}
             <input
                 type="time"
                 value={time}
@@ -86,20 +100,20 @@ export const TaskEditForm = ({task, onClose} : Props) => {
                     onClick={onClose}
                     disabled={isUpdating}
                 >
-                    Cancel
+                    Отмена
                 </button>
                 <button
                     type="submit"
                     className={styles.primaryButton}
-                    disabled={isUpdating || !taskName.trim()}
+                    disabled={isUpdating}
                 >
-                    Save
+                    {isUpdating ? "Сохранение..." : "Сохранить задачу"}
                 </button>
             </div>
             {isUpdateError && (
-                <p>
-                    Не удалось обновить задачу
-                </p>
+                <ErrorMessage>
+                    Не удалось обновить задачу. Попробуйте позже.
+                </ErrorMessage>
             )}
         </form>
     );

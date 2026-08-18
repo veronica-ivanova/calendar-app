@@ -60,7 +60,7 @@
 
 .actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-around;
     gap: 12px;
 }
 
@@ -102,4 +102,13 @@
 
 .primaryButton:hover {
     background: var(--primary-hover);
+}
+.inputError {
+    border-color: #dc2626;
+    outline-color: #dc2626;
+}
+
+.inputError:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgb(220 38 38 / 15%);
 }

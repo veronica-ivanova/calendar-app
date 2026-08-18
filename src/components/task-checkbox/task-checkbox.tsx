@@ -3,6 +3,7 @@ import type {Task} from "../../types/types.ts";
 import {useSetTaskCompletedMutation} from "../../redux/services/api.ts";
 import * as React from "react";
 import classNames from "classnames";
+import {ErrorMessage} from "../error-message/error-message.tsx";
 type Props = {
     task: Task;
     showErrorMessage?: boolean;
@@ -33,10 +34,8 @@ export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
             }
     }
 
-    const errorMessage = "Не удалось изменить статус задачи";
-
     return (
-        <span className={styles.root}>
+        <div className={styles.root}>
             <input
                 className={classNames(styles.checkbox, {
                     [styles.checkboxError]: isCompleteError,
@@ -52,21 +51,13 @@ export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
                 }
             />
             {showErrorMessage && isCompleteError && (
-                <span className={styles.error} role="alert">
-                    <span className={styles.errorText}>
-                        {errorMessage}
-                    </span>
-
-                    <button
-                        className={styles.closeButton}
-                        type="button"
-                        onClick={resetCompleteState}
-                        aria-label="Закрыть сообщение об ошибке"
-                    >
-                      ×
-                    </button>
-                </span>
+                <ErrorMessage
+                    className={styles.completeError}
+                    onClose={resetCompleteState}
+                >
+                    Не удалось изменить статус задачи. Попробуйте позже.
+                </ErrorMessage>
             )}
-        </span>
+        </div>
     )
 }
