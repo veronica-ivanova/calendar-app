@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import type {Task, TaskRequest} from "../../types/types.ts";
+import type {Task, TaskRequest, TasksResponse, TaskVisibility} from "../../types/types.ts";
 
 type UpdateTaskArgs = {
     id: Task["id"];
@@ -15,8 +15,11 @@ export const api = createApi({
     baseQuery: fetchBaseQuery({baseUrl: "https://my.calendar-web.ru/api/"}),
     tagTypes: ["Tasks"],
     endpoints: (builder) => ({
-        getTasks: builder.query<Task[], void>({
-            query: () => "tasks/all",
+        getTasks: builder.query<TasksResponse, TaskVisibility | void>({
+            query: (visibility) => ({
+                url: "tasks/all",
+                params: visibility ? { visibility} : undefined,
+            }),
             providesTags: ["Tasks"],
         }),
         getTaskById: builder.query<Task, string>({

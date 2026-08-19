@@ -1,4 +1,5 @@
 export type TaskVisibility = "PRIVATE" | "PUBLIC";
+export type TaskVisibilityFilter = "ALL" | TaskVisibility;
 
 export type Task = {
     id: string;
@@ -15,3 +16,11 @@ export type TaskRequest = Pick<
     Task,
     "name" | "description" | "visibility" | "date"
 >
+export type TasksResponse = {
+    tasks: Task[];
+    states: {
+        allCount: number;
+        publicCount: number;
+        privateCount: number;
+    }
+}

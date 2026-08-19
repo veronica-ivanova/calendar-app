@@ -31,15 +31,15 @@ export const FilterPanel = ({
                     label="Все задачи"
                     icon={UserRound}
                     count={allCount}
-                    isActive={visibility === "all"}
-                    onClick={() => onVisibilityChange("all")}
+                    isActive={visibility === "ALL"}
+                    onClick={() => onVisibilityChange("ALL")}
                 />
                 <FilterButton
                     label="Публичные"
                     icon={UsersRound}
                     count={publicCount}
-                    isActive={visibility === "public"}
-                    onClick={() => onVisibilityChange("public")}
+                    isActive={visibility === "PUBLIC"}
+                    onClick={() => onVisibilityChange("PUBLIC")}
                 />
 
             </div>

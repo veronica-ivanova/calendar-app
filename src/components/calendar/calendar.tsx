@@ -1,5 +1,5 @@
 import styles from './calendar.module.css'
-import type {Task, TaskVisibility } from "../../types/types.ts";
+import type {Task, TaskVisibilityFilter} from "../../types/types.ts";
 import { getDateKey} from "../../utils/date.ts";
 import { useState } from "react";
 import {DayPanel} from "../day-panel/day-panel.tsx";
@@ -23,14 +23,19 @@ export const Calendar = () => {
     const calendar= useCalendar(viewDate);
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
-    const [visibility, setVisibility] = useState<TaskVisibility>("PRIVATE");
+    const [visibility, setVisibility] = useState<TaskVisibilityFilter>("ALL");
 
     const {
-        data: tasks = [],
+        data,
         isLoading,
         isError,
         error,
-    } = useGetTasksQuery();
+    } = useGetTasksQuery(
+        visibility === "ALL" ? undefined : visibility
+    );
+    const tasks = data?.tasks ?? []
+    const allCount = data?.states.allCount ?? 0;
+    const publicCount = data?.states.publicCount ?? 0;
 
     if (isLoading) {
         return <div>Загрузка задач...</div>;
@@ -72,20 +77,6 @@ export const Calendar = () => {
         setViewDate(today);
         setSelectedDate(getDateKey(today))
     }
-    const tasksInCurrentMonth = tasks.filter((task) => {
-        const taskDate = new Date(task.date);
-
-        return (
-            taskDate.getFullYear() === viewDate.getFullYear() &&
-            taskDate.getMonth() === viewDate.getMonth()
-        );
-    });
-
-    const allCount = tasksInCurrentMonth.length;
-
-    const publicCount = tasksInCurrentMonth.filter(
-        (task) => task.visibility === "PUBLIC",
-    ).length;
 
     return (
             <div className={styles.root}>
