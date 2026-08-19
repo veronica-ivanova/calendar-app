@@ -9,16 +9,25 @@ type SetTaskCompletedArgs = {
     id: Task["id"];
     completed: boolean
 }
+type GetTasksArgs = {
+    dateFrom: string;
+    dateTo: string;
+    visibility?: TaskVisibility;
+}
 
 export const api = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({baseUrl: "https://my.calendar-web.ru/api/"}),
     tagTypes: ["Tasks"],
     endpoints: (builder) => ({
-        getTasks: builder.query<TasksResponse, TaskVisibility | void>({
-            query: (visibility) => ({
+        getTasks: builder.query<TasksResponse, GetTasksArgs>({
+            query: ( {dateFrom, dateTo, visibility}) => ({
                 url: "tasks/all",
-                params: visibility ? { visibility} : undefined,
+                params: {
+                    dateFrom,
+                    dateTo,
+                    visibility
+                }
             }),
             providesTags: ["Tasks"],
         }),

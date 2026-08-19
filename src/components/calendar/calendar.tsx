@@ -25,14 +25,27 @@ export const Calendar = () => {
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
     const [visibility, setVisibility] = useState<TaskVisibilityFilter>("ALL");
 
+    const firstVisibleDate = getDateKey(
+        calendar.calendarDays[0].date,
+    );
+
+    const lastVisibleDate = getDateKey(
+        calendar.calendarDays[calendar.calendarDays.length - 1].date,
+    );
+
     const {
         data,
         isLoading,
         isError,
         error,
-    } = useGetTasksQuery(
-        visibility === "ALL" ? undefined : visibility
-    );
+    } = useGetTasksQuery( {
+            dateFrom: firstVisibleDate,
+            dateTo: lastVisibleDate,
+            visibility:
+                visibility === "ALL"
+                    ? undefined
+                    : visibility,
+    });
     const tasks = data?.tasks ?? []
     const allCount = data?.states.allCount ?? 0;
     const publicCount = data?.states.publicCount ?? 0;
@@ -46,11 +59,7 @@ export const Calendar = () => {
         return <div>Не удалось получить задачи</div>;
     }
 
-    const visibleTasks = visibility === "PUBLIC"
-        ? tasks.filter((task) => task.visibility === "PUBLIC")
-        : tasks;
-
-    const tasksByDate = visibleTasks.reduce<Record<string, Task[]>>((acc, task) => {
+    const tasksByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
         const key = getDateKey(new Date(task.date));
 
         if (!acc[key]) {
