@@ -24,3 +24,7 @@ export type TasksResponse = {
         privateCount: number;
     }
 }
+export type SearchTasksResponse = {
+    content: Task[],
+    isLast: boolean,
+}

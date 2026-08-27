@@ -18,8 +18,6 @@ export const Calendar = () => {
     ); //1июля
     const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
 
-    const [query, setQuery] = useState("");
-
     const calendar= useCalendar(viewDate);
 
     const [selectedDate, setSelectedDate] = useState<string>(getDateKey(today));
@@ -99,11 +97,9 @@ export const Calendar = () => {
                         onAddTask={() => setIsCreateTaskOpen(true)}
                     />
                     <FilterPanel
-                        query={query}
                         visibility={visibility}
                         allCount={allCount}
                         publicCount={publicCount}
-                        onQueryChange={setQuery}
                         onVisibilityChange={setVisibility}
                     />
                     <CalendarGrid

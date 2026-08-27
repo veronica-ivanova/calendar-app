@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import type {Task, TaskRequest, TasksResponse, TaskVisibility} from "../../types/types.ts";
+import type {SearchTasksResponse, Task, TaskRequest, TasksResponse, TaskVisibility} from "../../types/types.ts";
 
 type UpdateTaskArgs = {
     id: Task["id"];
@@ -13,6 +13,10 @@ type GetTasksArgs = {
     dateFrom: string;
     dateTo: string;
     visibility?: TaskVisibility;
+}
+type SearchTasksArgs = {
+    filter: string;
+    size: number;
 }
 
 export const api = createApi({
@@ -64,7 +68,41 @@ export const api = createApi({
                 body: { completed }
             }),
             invalidatesTags: ["Tasks"]
-        })
+        }),
+        searchTasks: builder.infiniteQuery<
+            SearchTasksResponse, // ответ одной страницы
+            SearchTasksArgs, // параметры поиска
+            number // тип pageNumber
+        >({
+            infiniteQueryOptions: {
+                // Сервер начинает пагинацию с нулевой страницы.
+                initialPageParam: 0,
+                // Вызывается после загрузки каждой страницы.
+                getNextPageParam: (
+                    lastPage,
+                    _allPages,
+                    lastPageNumber
+                ) => {
+                    if (lastPage.isLast) {
+                        return undefined
+                    }
+                    return lastPageNumber + 1;
+                },
+            },
+
+            query: ({
+                queryArg: { filter, size },
+                pageParam
+            }) => ({
+                url: "tasks",
+                params: {
+                    filter,
+                    pageNumber: pageParam,
+                    size,
+                }
+            }),
+            providesTags: ["Tasks"],
+        }),
     })
 })
 
@@ -75,4 +113,5 @@ export const {
     useDeleteTaskMutation,
     useUpdateTaskMutation,
     useSetTaskCompletedMutation,
+    useSearchTasksInfiniteQuery
 } = api;
