@@ -4,6 +4,7 @@ import { useMemo, useState} from "react";
 import {useSearchTasksInfiniteQuery} from "../../redux/services/api.ts";
 import styles from "./task-search.module.css";
 import { useDebounce } from "../../hooks/useDebounce.ts";
+import {formatResultsCount} from "../../utils/plural-rules.ts";
 
 const PAGE_SIZE = 5;
 export const TaskSearch = () => {
@@ -47,6 +48,7 @@ export const TaskSearch = () => {
             ) ?? [],
         [currentData]
     )
+    const totalElements = currentData?.pages[0]?.totalElements ?? 0;
 
     const handleScroll = (
         event: React.UIEvent<HTMLDivElement>
@@ -80,52 +82,57 @@ export const TaskSearch = () => {
                 value={filter}
                 onChange={setFilter}
             />
+
             {normalizedFilter &&
                 <div
                     className={styles.results}
-                    onScroll={handleScroll}
                 >
-                    {isLoading && (
-                        <div className={styles.status}>
-                            Поиск...
-                        </div>
-                    )}
-
-                    {isError && (
-                        <div className={styles.status}>
-                            Не удалось выполнить поиск
-                        </div>
-                    )}
-
-                    {showNoResults && (
-                            <div className={styles.status}>
-                                Задачи не найдены
-                            </div>
-                    )}
-
-                    {tasks.length !== 0 &&
+                    {tasks.length > 0 &&
                         <div className={styles.resultsHeader}>
                             <span>По всем месяцам</span>
 
                             <span>
-                                {tasks.length} результатов
+                                {formatResultsCount(totalElements)}
                             </span>
                         </div>
                     }
+                    <div
+                        className={styles.resultsList}
+                        onScroll={handleScroll}
+                    >
+                        {isLoading && (
+                            <div className={styles.status}>
+                                Поиск...
+                            </div>
+                        )}
 
-                    {tasks.map((task) => (
-                        <TaskSearchResult
-                            key={task.id}
-                            task={task}
-                        />
-                    ))}
+                        {isError && (
+                            <div className={styles.status}>
+                                Не удалось выполнить поиск
+                            </div>
+                        )}
 
-                    {isFetchingNextPage && (
-                        <div className={styles.status}>
-                            Загружаем ещё...
-                        </div>
-                    )}
+                        {showNoResults && (
+                                <div className={styles.status}>
+                                    Задачи не найдены
+                                </div>
+                        )}
 
+
+
+                        {tasks.map((task) => (
+                            <TaskSearchResult
+                                key={task.id}
+                                task={task}
+                            />
+                        ))}
+
+                        {isFetchingNextPage && (
+                            <div className={styles.status}>
+                                Загружаем ещё...
+                            </div>
+                        )}
+                    </div>
                 </div>}
         </div>
 

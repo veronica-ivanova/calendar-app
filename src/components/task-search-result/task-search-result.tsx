@@ -29,7 +29,12 @@ export const TaskSearchResult = ({task} :Props) => {
             >
                 {formattedDate} · {formattedTime}
             </div>
-            <span>
+            <span
+                className={`
+                    ${styles.visibility}
+                    ${isPublic ? styles.public : styles.private}
+                `}
+            >
                 {isPublic ? (
                     <UsersRound
                         size={14}

@@ -27,4 +27,5 @@ export type TasksResponse = {
 export type SearchTasksResponse = {
     content: Task[],
     isLast: boolean,
+    totalElements: number,
 }
