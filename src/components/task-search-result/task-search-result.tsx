@@ -4,8 +4,9 @@ import {UserRound, UsersRound} from "lucide-react";
 
 type Props = {
     task: Task;
+    onSelect: (task: Task) => void;
 }
-export const TaskSearchResult = ({task} :Props) => {
+export const TaskSearchResult = ({task, onSelect} :Props) => {
     const date = new Date(task.date);
     const formattedDate = date.toLocaleDateString("ru-RU", {
         day: "numeric",
@@ -17,18 +18,22 @@ export const TaskSearchResult = ({task} :Props) => {
     });
     const isPublic = task.visibility === "PUBLIC";
     return (
-        <div className={styles.root}>
-            <h3
+        <button
+            type="button"
+            className={styles.root}
+            onClick={() => onSelect(task)}
+        >
+            <span
                 className={styles.name}
                 title={task.name}
             >
                 {task.name}
-            </h3>
-            <div
+            </span>
+            <span
                 className={styles.date}
             >
                 {formattedDate} · {formattedTime}
-            </div>
+            </span>
             <span
                 className={`
                     ${styles.visibility}
@@ -48,6 +53,6 @@ export const TaskSearchResult = ({task} :Props) => {
                 )}
                 {isPublic ? "Публичная" : "Только я"}
             </span>
-        </div>
+        </button>
     )
 }

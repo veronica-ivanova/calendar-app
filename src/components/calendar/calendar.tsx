@@ -84,6 +84,11 @@ export const Calendar = () => {
         setViewDate(today);
         setSelectedDate(getDateKey(today))
     }
+    const handleSelectSearchTask = (task: Task) => {
+        const taskDate = new Date(task.date);
+        setViewDate(taskDate);
+        setSelectedDate(getDateKey(taskDate));
+    };
 
     return (
             <div className={styles.root}>
@@ -101,6 +106,7 @@ export const Calendar = () => {
                         allCount={allCount}
                         publicCount={publicCount}
                         onVisibilityChange={setVisibility}
+                        onSelectSearchTask={handleSelectSearchTask}
                     />
                     <CalendarGrid
                         calendar={calendar}

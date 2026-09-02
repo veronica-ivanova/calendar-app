@@ -5,9 +5,16 @@ import {useSearchTasksInfiniteQuery} from "../../redux/services/api.ts";
 import styles from "./task-search.module.css";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import {formatResultsCount} from "../../utils/plural-rules.ts";
+import type {Task} from "../../types/types.ts";
+
+type Props = {
+    onSelectTask: (task: Task) => void;
+};
 
 const PAGE_SIZE = 5;
-export const TaskSearch = () => {
+export const TaskSearch = ({
+       onSelectTask,
+}: Props) => {
     const [filter, setFilter] = useState("")
     // const [pageNumber, setPageNumber] = useState(0);
     // const [tasks, setTasks] = useState<Task[]>([]);
@@ -70,6 +77,11 @@ export const TaskSearch = () => {
         }
     }
 
+    const handleSelectResult = (task: Task) => {
+        onSelectTask(task);
+        setFilter("");
+    };
+
     const showNoResults =
         !isFetching &&
         !isError &&
@@ -124,6 +136,7 @@ export const TaskSearch = () => {
                             <TaskSearchResult
                                 key={task.id}
                                 task={task}
+                                onSelect={handleSelectResult}
                             />
                         ))}
 

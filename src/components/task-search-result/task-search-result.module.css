@@ -3,8 +3,10 @@
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 8px 12px;
     align-items: center;
+    width: 100%;
     /*min-height: 56px;*/
     padding: 10px 15px;
+    text-align: left;
 
     border-bottom: 1px solid var(--border-color);
     background-color: var(--light-color);

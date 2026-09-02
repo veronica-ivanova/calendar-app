@@ -1,6 +1,6 @@
 import { UserRound, UsersRound} from "lucide-react";
 import {FilterButton} from "../filter-button/filter-button.tsx";
-import type {TaskVisibilityFilter} from "../../types/types.ts";
+import type {Task, TaskVisibilityFilter} from "../../types/types.ts";
 import styles from "./filter-panel.module.css";
 import {TaskSearch} from "../task-search/task-search.tsx";
 
@@ -9,16 +9,18 @@ type Props = {
     allCount?: number;
     publicCount?: number;
     onVisibilityChange: (value: TaskVisibilityFilter) => void;
+    onSelectSearchTask: (task: Task) => void;
 };
 export const FilterPanel = ({
     visibility,
     allCount,
     publicCount,
     onVisibilityChange,
+    onSelectSearchTask
 } : Props) => {
     return (
         <div className={styles.root}>
-            <TaskSearch/>
+            <TaskSearch  onSelectTask={onSelectSearchTask}/>
 
             <div className={styles.filterButtonContainer}>
                 <FilterButton
