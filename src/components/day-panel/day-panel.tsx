@@ -1,13 +1,14 @@
-import type {Task} from "../../types/types.ts";
+import type {TaskVisibilityFilter} from "../../types/types.ts";
 import {TaskList} from "../task-list/task-list.tsx";
 import {TaskCreateForm} from "../task-create-form/task-create-form.tsx";
 import styles from './day-panel.module.css'
 import {CalendarDays} from "lucide-react";
 import {formatDateKey, isTodayDateKey} from "../../utils/date.ts";
+import {useGetTasksQuery} from "../../redux/services/api.ts";
 
 type Props = {
     selectedDate: string;
-    tasks: Task[];
+    visibility: TaskVisibilityFilter;
     isCreateTaskOpen: boolean;
     onOpenCreateTask: () => void;
     onCloseCreateTask: () => void;
@@ -15,14 +16,32 @@ type Props = {
 
 export const DayPanel = ({
                              selectedDate,
-                             tasks,
+                             visibility,
                              isCreateTaskOpen,
                              onOpenCreateTask,
                              onCloseCreateTask,
                          }: Props) => {
 
+    const {currentData, isFetching, isError,} = useGetTasksQuery({
+        dateFrom: selectedDate,
+        dateTo: selectedDate,
+        visibility,
+    })
+
+    const tasks = [...(currentData?.tasks ?? [])].sort(
+        (a, b) => a.date.localeCompare(b.date)
+    );
+
     const formattedDate = formatDateKey(selectedDate);
     const isToday = isTodayDateKey(selectedDate);
+
+    const sectionTitle = isFetching
+        ? 'Загрузка задач...'
+        : isError
+            ? 'Не удалось получить задачи'
+            : tasks.length > 0
+                ? 'Задачи на день'
+                : 'Задач нет';
 
     return (
         <div className={styles.root}>
@@ -40,11 +59,10 @@ export const DayPanel = ({
                     <CalendarDays size={28}/>
                 </div>
             </div>
-
             <section className={styles.section}>
                 <div className={styles.sectionHeader}>
                     <h3>
-                        {tasks.length > 0 ? 'Задачи на день' : 'Задач нет'}
+                        {sectionTitle}
                     </h3>
                     {!isCreateTaskOpen &&
                         <button
@@ -62,9 +80,11 @@ export const DayPanel = ({
                     />
                 )}
 
-                <TaskList
-                    tasks={tasks}
-                />
+                {!isFetching && !isError && (
+                    <TaskList
+                        tasks={tasks}
+                    />
+                )}
             </section>
         </div>
     )

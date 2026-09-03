@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import type {SearchTasksResponse, Task, TaskRequest, TasksResponse, TaskVisibility} from "../../types/types.ts";
+import type {
+    SearchTasksResponse,
+    Task,
+    TaskRequest,
+    TasksResponse,
+    TaskVisibilityFilter
+} from "../../types/types.ts";
 
 type UpdateTaskArgs = {
     id: Task["id"];
@@ -12,7 +18,7 @@ type SetTaskCompletedArgs = {
 type GetTasksArgs = {
     dateFrom: string;
     dateTo: string;
-    visibility?: TaskVisibility;
+    visibility?: TaskVisibilityFilter;
 }
 type SearchTasksArgs = {
     filter: string;
@@ -30,7 +36,7 @@ export const api = createApi({
                 params: {
                     dateFrom,
                     dateTo,
-                    visibility
+                    visibility: visibility === "ALL" ? undefined : visibility
                 }
             }),
             providesTags: ["Tasks"],

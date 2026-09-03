@@ -39,10 +39,7 @@ export const Calendar = () => {
     } = useGetTasksQuery( {
             dateFrom: firstVisibleDate,
             dateTo: lastVisibleDate,
-            visibility:
-                visibility === "ALL"
-                    ? undefined
-                    : visibility,
+            visibility,
     });
     const tasks = data?.tasks ?? []
     const allCount = data?.states.allCount ?? 0;
@@ -70,8 +67,6 @@ export const Calendar = () => {
     Object.values(tasksByDate).forEach((tasks) => {
         tasks.sort((a, b) => a.date.localeCompare(b.date));
     })
-
-    const selectedTasks = tasksByDate[selectedDate] ?? [];
 
     const nextMonth = () => {
         setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
@@ -117,7 +112,7 @@ export const Calendar = () => {
                 </div>
                 <DayPanel
                     selectedDate={selectedDate}
-                    tasks={selectedTasks}
+                    visibility={visibility}
                     isCreateTaskOpen={isCreateTaskOpen}
                     onOpenCreateTask={() => setIsCreateTaskOpen(true)}
                     onCloseCreateTask={() => setIsCreateTaskOpen(false)}
