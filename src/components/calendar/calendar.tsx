@@ -83,6 +83,7 @@ export const Calendar = () => {
         const taskDate = new Date(task.date);
         setViewDate(taskDate);
         setSelectedDate(getDateKey(taskDate));
+        setVisibility("ALL")
     };
 
     return (

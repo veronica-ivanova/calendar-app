@@ -36,6 +36,7 @@ export const api = createApi({
                 params: {
                     dateFrom,
                     dateTo,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     visibility: visibility === "ALL" ? undefined : visibility
                 }
             }),

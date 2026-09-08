@@ -38,13 +38,13 @@ export const TaskCreateForm = ({
 
         if (!taskName.trim()) return;
 
-        const newTask: TaskRequest = {
-            name: taskName.trim(),
-            description: taskDescription.trim(),
-            date: createISOString(selectedDate, time),
-            visibility: "PRIVATE"
-        }
         try {
+            const newTask: TaskRequest = {
+                name: taskName.trim(),
+                description: taskDescription.trim(),
+                date: createISOString(selectedDate, time || "00:00"),
+                visibility: "PRIVATE"
+            }
             await createTask(newTask).unwrap();
             setTaskName("");
             setTaskDescription("")

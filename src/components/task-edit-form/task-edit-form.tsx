@@ -37,13 +37,13 @@ export const TaskEditForm = ({task, onClose} : Props) => {
 
         if (!taskName.trim()) return;
 
-        const newTask: TaskRequest = {
-            name: taskName.trim(),
-            description: taskDescription.trim(),
-            date: createISOString(dataKey, time),
-            visibility: task.visibility,
-        }
         try {
+            const newTask: TaskRequest = {
+                name: taskName.trim(),
+                description: taskDescription.trim(),
+                date: createISOString(dataKey, time || "00:00"),
+                visibility: task.visibility,
+            }
             await updateTask({id: task.id, changes: newTask}).unwrap();
             onClose();
 
