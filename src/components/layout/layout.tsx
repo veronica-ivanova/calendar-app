@@ -1,17 +1,14 @@
 import styles from "./layout.module.css";
 import {Header} from "../header/header.tsx";
+import {Outlet} from "react-router";
 
-type Props = {
-    children: React.ReactNode;
-}
-
-export const Layout = ({ children } : Props) => {
+export const Layout = () => {
     return (
         <div className={styles.root}>
             <div className="container">
                 <Header />
                     <main>
-                        {children}
+                        <Outlet/>
                     </main>
             </div>
         </div>
