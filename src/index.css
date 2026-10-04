@@ -13,7 +13,8 @@
     --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     --control-height: 44px;
     --border-radius: 10px;
-    --outside-month-background: #F7F7F8
+    --outside-month-background: #F7F7F8;
+    --red-color: #dc2626;
 }
 [data-theme="dark"] {
     --dark-color: #f9fafb;
@@ -27,7 +28,8 @@
     --primary-light: #312e4f;
     --primary-border: #6d5b9c;
     --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    --outside-month-background: #18202B
+    --outside-month-background: #18202B;
+    --red-color: #fca5a5;
 }
 [data-theme] {
     min-height: 100vh;

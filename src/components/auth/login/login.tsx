@@ -4,6 +4,9 @@ import type {LoginRequest} from "../../../types/types.ts";
 import {useForm} from "react-hook-form";
 import type {AuthMode} from "../../../pages/auth/auth.tsx";
 import styles from "../auth-form.module.css";
+import {useDispatch} from "react-redux";
+import type {AppDispatch} from "../../../redux/store.ts";
+import { setAccessToken } from "../../../redux/features/auth/authSlice.ts";
 
 type Props = {
     setSelected: (value: AuthMode) => void
@@ -11,6 +14,7 @@ type Props = {
 export const Login = ({ setSelected } :Props) => {
     const navigate = useNavigate();
     const [login] = useLoginMutation();
+    const dispatch = useDispatch<AppDispatch>();
 
     const {
         register,
@@ -27,7 +31,8 @@ export const Login = ({ setSelected } :Props) => {
 
     const onSubmit = async (data: LoginRequest) => {
         try {
-            await login(data).unwrap();
+            const result = await login(data).unwrap();
+            dispatch(setAccessToken(result.accessToken))
             navigate("/", { replace: true })
         } catch (error) {
             const isUnauthorized =

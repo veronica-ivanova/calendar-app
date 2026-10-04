@@ -1,11 +1,13 @@
-import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import type {
+    LoginRequest, LoginResponse, RegisterRequest,
     SearchTasksResponse,
     Task,
     TaskRequest,
     TasksResponse,
-    TaskVisibilityFilter
+    TaskVisibilityFilter, User
 } from "../../types/types.ts";
+import {baseQueryWithReauth, refreshSession} from "./baseQuery.ts";
 
 type UpdateTaskArgs = {
     id: Task["id"];
@@ -27,7 +29,7 @@ type SearchTasksArgs = {
 
 export const api = createApi({
     reducerPath: "api",
-    baseQuery: fetchBaseQuery({baseUrl: "https://my.calendar-web.ru/api/"}),
+    baseQuery: baseQueryWithReauth,
     tagTypes: ["Tasks"],
     endpoints: (builder) => ({
         getTasks: builder.query<TasksResponse, GetTasksArgs>({
@@ -110,6 +112,38 @@ export const api = createApi({
             }),
             providesTags: ["Tasks"],
         }),
+        login: builder.mutation<LoginResponse, LoginRequest>({
+            query: (body) => ({
+                url: "auth/login",
+                method: "POST",
+                body,
+            }),
+        }),
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: "auth/logout",
+                method: "POST",
+            }),
+        }),
+        getMe: builder.query<User, void>({
+            query: () => "auth/me",
+        }),
+        register: builder.mutation<void, RegisterRequest>({
+            query: (body) => ({
+                url: "register",
+                method: "POST",
+                body,
+            }),
+        }),
+        refresh: builder.query<null, void>({
+            async queryFn(_, queryApi) {
+                const result = await refreshSession(queryApi);
+                 if (result.error) {
+                     return { error: result.error };
+                 }
+                 return { data: null}
+            }
+        })
     })
 })
 
@@ -120,5 +154,10 @@ export const {
     useDeleteTaskMutation,
     useUpdateTaskMutation,
     useSetTaskCompletedMutation,
-    useSearchTasksInfiniteQuery
+    useSearchTasksInfiniteQuery,
+    useLoginMutation,
+    useRegisterMutation,
+    useRefreshQuery,
+    useGetMeQuery,
+    useLogoutMutation
 } = api;
