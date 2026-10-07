@@ -3,6 +3,7 @@ import {CalendarCheck, Moon, Sun, User} from "lucide-react";
 import classNames from "classnames";
 import {ThemeContext} from "../theme-context/theme-context.ts";
 import {use} from "react";
+import {LogoutButton} from "../auth/logout-button/logout-button.tsx";
 export const Header = () => {
     const {theme, changeTheme} = use(ThemeContext);
     return (
@@ -20,6 +21,7 @@ export const Header = () => {
                     <button onClick={() => changeTheme("dark")} className={classNames(styles.themeButton, {[styles.themeButtonActive]: theme === "dark"})}><Moon size={20}/></button>
                 </div>
                 <button className={styles.userButton}><User size={20}/></button>
+                <LogoutButton/>
             </div>
         </header>
     );
