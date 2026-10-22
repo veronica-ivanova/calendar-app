@@ -23,7 +23,7 @@ const baseQuery = fetchBaseQuery({
     }
 })
 
-export const refreshSession = async (queryApi: BaseQueryApi) => {
+const requestRefresh = async (queryApi: BaseQueryApi) => {
     const result = await baseQuery(
         {
             url: "auth/refresh",
@@ -44,6 +44,19 @@ export const refreshSession = async (queryApi: BaseQueryApi) => {
     queryApi.dispatch(setAccessToken(data.accessToken));
 
     return result
+}
+
+// Promise выполняющегося refresh-запроса.
+let refreshPromise: ReturnType<typeof requestRefresh> | null = null;
+
+// Возвращает существующий запрос или запускает новый.
+export const refreshSession = (queryApi: BaseQueryApi) => {
+    if (!refreshPromise) {
+        refreshPromise = requestRefresh(queryApi).finally(() => {
+            refreshPromise = null;
+        });
+    }
+    return refreshPromise;
 }
 
 export const baseQueryWithReauth: BaseQueryFn<
