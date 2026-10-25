@@ -65,6 +65,9 @@ export const baseQueryWithReauth: BaseQueryFn<
     FetchBaseQueryError
 > = async (args, queryApi, extraOptions) => {
 
+    // токен, с которым отправляем запрос.
+    const tokenBeforeRequest = (queryApi.getState() as RootState).auth.accessToken;
+
     let result = await baseQuery(
         args,
         queryApi,
@@ -84,11 +87,22 @@ export const baseQueryWithReauth: BaseQueryFn<
         return result
     }
 
-    //Если 401 - обновляем access token
-    //Refresh-cookie браузер отправит автоматически
-    const refreshResult = await refreshSession(queryApi);
-    if (refreshResult.error) {
-        return { error: refreshResult.error };
+    // Пока мы ждали ответ, другой запрос мог обновить токен.
+    const currentToken =
+        (queryApi.getState() as RootState).auth.accessToken;
+
+    if (!currentToken) {
+        return result;
+    }
+
+    // Токен не изменился — нужно его обновить.
+    if (currentToken === tokenBeforeRequest) {
+        //Если 401 - обновляем access token
+        //Refresh-cookie браузер отправит автоматически
+        const refreshResult = await refreshSession(queryApi);
+        if (refreshResult.error) {
+            return { error: refreshResult.error };
+        }
     }
 
     //Повторяем исходный запрос
