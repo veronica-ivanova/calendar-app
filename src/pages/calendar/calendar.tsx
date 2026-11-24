@@ -2,12 +2,13 @@ import styles from './calendar.module.css'
 import type {Task, TaskVisibilityFilter} from "../../types/types.ts";
 import { getDateKey} from "../../utils/date.ts";
 import { useState } from "react";
-import {DayPanel} from "../day-panel/day-panel.tsx";
-import {CalendarGrid} from "../calendar-grid/calendar-grid.tsx";
-import {CalendarHeader} from "../calendar-header/calendar-header.tsx";
+import {DayPanel} from "../../components/day-panel/day-panel.tsx";
+import {CalendarGrid} from "../../components/calendar-grid/calendar-grid.tsx";
+import {CalendarHeader} from "../../components/calendar-header/calendar-header.tsx";
 import {useCalendar} from "../../hooks/useCalendar.ts";
-import {FilterPanel} from "../filter-panel/filter-panel.tsx";
+import {FilterPanel} from "../../components/filter-panel/filter-panel.tsx";
 import {useGetTasksQuery} from "../../redux/services/api.ts";
+import {groupTasksByDate} from "../../utils/group-tasks-by-date.ts";
 
 export const Calendar = () => {
 
@@ -15,7 +16,7 @@ export const Calendar = () => {
 
     const [viewDate, setViewDate] = useState(
         new Date(today.getFullYear(), today.getMonth(), 1)
-    ); //1июля
+    ); //1число
     const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
 
     const calendar= useCalendar(viewDate);
@@ -54,19 +55,7 @@ export const Calendar = () => {
         return <div>Не удалось получить задачи</div>;
     }
 
-    const tasksByDate = tasks.reduce<Record<string, Task[]>>((acc, task) => {
-        const key = getDateKey(new Date(task.date));
-
-        if (!acc[key]) {
-            acc[key] = [];
-        }
-        acc[key].push(task);
-        return acc;
-    }, {})
-
-    Object.values(tasksByDate).forEach((tasks) => {
-        tasks.sort((a, b) => a.date.localeCompare(b.date));
-    })
+    const tasksByDate = groupTasksByDate(tasks);
 
     const nextMonth = () => {
         setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));

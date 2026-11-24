@@ -1,4 +1,4 @@
-import { Calendar } from "./components/calendar/calendar";
+import { Calendar } from "./pages/calendar/calendar";
 import {Layout} from "./components/layout/layout.tsx";
 import {ThemeContextProvider} from "./components/theme-context/theme-context-provider.tsx";
 import {Provider} from "react-redux";
@@ -22,7 +22,6 @@ const App = () => {
                                     <Route path="/" element={<Calendar/>}/>
                                 </Route>
                             </Route>
-
 
                             <Route
                                 path="*"
