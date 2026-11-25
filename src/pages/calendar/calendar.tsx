@@ -9,6 +9,7 @@ import {useCalendar} from "../../hooks/useCalendar.ts";
 import {FilterPanel} from "../../components/filter-panel/filter-panel.tsx";
 import {useGetTasksQuery} from "../../redux/services/api.ts";
 import {groupTasksByDate} from "../../utils/group-tasks-by-date.ts";
+import {ErrorMessage} from "../../components/error-message/error-message.tsx";
 
 export const Calendar = () => {
 
@@ -35,8 +36,7 @@ export const Calendar = () => {
     const {
         data,
         isLoading,
-        isError,
-        error,
+        isError
     } = useGetTasksQuery( {
             dateFrom: firstVisibleDate,
             dateTo: lastVisibleDate,
@@ -48,11 +48,6 @@ export const Calendar = () => {
 
     if (isLoading) {
         return <div>Загрузка задач...</div>;
-    }
-
-    if (isError) {
-        console.error(error);
-        return <div>Не удалось получить задачи</div>;
     }
 
     const tasksByDate = groupTasksByDate(tasks);
@@ -93,6 +88,13 @@ export const Calendar = () => {
                         onVisibilityChange={setVisibility}
                         onSelectSearchTask={handleSelectSearchTask}
                     />
+
+                    {isError && (
+                        <ErrorMessage>
+                            Не удалось загрузить задачи. Попробуйте позже.
+                        </ErrorMessage>
+                    )}
+
                     <CalendarGrid
                         calendar={calendar}
                         tasksByDate={tasksByDate}

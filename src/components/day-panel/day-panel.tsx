@@ -22,7 +22,7 @@ export const DayPanel = ({
                              onCloseCreateTask,
                          }: Props) => {
 
-    const {currentData, isFetching, isError,} = useGetTasksQuery({
+    const {currentData, isFetching,  isError,} = useGetTasksQuery({
         dateFrom: selectedDate,
         dateTo: selectedDate,
         visibility,
@@ -35,7 +35,9 @@ export const DayPanel = ({
     const formattedDate = formatDateKey(selectedDate);
     const isToday = isTodayDateKey(selectedDate);
 
-    const sectionTitle = isFetching
+    const isLoadingCurrentDay = isFetching && !currentData;
+
+    const sectionTitle =  isLoadingCurrentDay
         ? 'Загрузка задач...'
         : isError
             ? 'Не удалось получить задачи'
@@ -80,7 +82,7 @@ export const DayPanel = ({
                     />
                 )}
 
-                {!isFetching && !isError && (
+                {currentData && (
                     <TaskList
                         tasks={tasks}
                     />

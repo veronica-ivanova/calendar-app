@@ -42,6 +42,7 @@ export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
                 })}
                 type="checkbox"
                 checked={task.completed}
+                onClick={(event) => event.stopPropagation()}
                 onChange={handleCompletedChange}
                 disabled={isCompleting}
                 aria-label={

@@ -76,7 +76,7 @@ export const api = createApi({
                 method: "PATCH",
                 body: { completed }
             }),
-            invalidatesTags: ["Tasks"]
+            invalidatesTags: (_result, error) => error ? [] : ["Tasks"]
         }),
         searchTasks: builder.infiniteQuery<
             SearchTasksResponse, // ответ одной страницы
