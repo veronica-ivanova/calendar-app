@@ -56,7 +56,6 @@ export const TaskItem = ({ task } : Props) => {
             <div className={styles.taskHeader}>
                 <TaskCheckBox
                     task={task}
-                    showErrorMessage
                 />
                 {taskTime && (
                     <span className={styles.taskTime}>

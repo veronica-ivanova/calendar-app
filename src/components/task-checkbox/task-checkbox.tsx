@@ -4,11 +4,11 @@ import {useSetTaskCompletedMutation} from "../../redux/services/api.ts";
 import * as React from "react";
 import classNames from "classnames";
 import {ErrorMessage} from "../error-message/error-message.tsx";
+import {NotificationPortal} from "../notification-portal/notification-portal.tsx";
 type Props = {
     task: Task;
-    showErrorMessage?: boolean;
 };
-export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
+export const TaskCheckBox = ({ task } : Props) => {
     const [
         setTaskCompleted,
         {
@@ -16,9 +16,9 @@ export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
             isError: isCompleteError,
             reset: resetCompleteState,
         }
-    ] = useSetTaskCompletedMutation({
-        fixedCacheKey: `set-task-completed-${task.id}`
-    });
+    ] = useSetTaskCompletedMutation(
+    //     {fixedCacheKey: `set-task-completed-${task.id}`}
+    );
 
     const handleCompletedChange: React.ChangeEventHandler<HTMLInputElement> =
         async (event) => {
@@ -51,13 +51,13 @@ export const TaskCheckBox = ({ task, showErrorMessage = false } : Props) => {
                         : "Отметить задачу как выполненную"
                 }
             />
-            {showErrorMessage && isCompleteError && (
-                <ErrorMessage
-                    className={styles.completeError}
-                    onClose={resetCompleteState}
-                >
-                    Не удалось изменить статус задачи. Попробуйте позже.
-                </ErrorMessage>
+
+            {isCompleteError && (
+                    <NotificationPortal>
+                        <ErrorMessage onClose={resetCompleteState}>
+                            Не удалось изменить статус задачи. Попробуйте позже.
+                        </ErrorMessage>
+                    </NotificationPortal>
             )}
         </div>
     )
